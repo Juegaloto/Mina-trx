@@ -172,6 +172,7 @@
             display: block;
             font-size: 1.5rem;
             cursor: pointer;
+            color: white;
         }
         
         .header-title {
@@ -278,6 +279,17 @@
         .btn-small {
             padding: 6px 10px;
             font-size: 0.8rem;
+        }
+
+        /* Botón de soporte */
+        .btn-support {
+            background: #0088cc;
+            color: white;
+            margin-top: 10px;
+        }
+        
+        .btn-support:hover {
+            background: #006699;
         }
         
         /* Animals Grid */
@@ -448,6 +460,54 @@
             color: var(--light);
         }
         
+        /* Referral Section */
+        .referral-section {
+            background: #222;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .referral-code {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: monospace;
+            word-break: break-all;
+            text-align: center;
+            border: 1px dashed var(--secondary);
+            font-size: 1.2rem;
+            color: var(--secondary);
+        }
+        
+        .referral-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .referral-stat {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .referral-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+        
+        .referral-stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
         /* Modals */
         .modal {
             display: none;
@@ -610,6 +670,10 @@
                 grid-template-columns: 1fr;
             }
             
+            .referral-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
             /* Ajustar padding para móviles */
             .dashboard-section {
                 padding: 15px;
@@ -629,6 +693,10 @@
             
             .animal-icon {
                 font-size: 2.5rem;
+            }
+            
+            .referral-stats {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -823,10 +891,12 @@
                 <li class="active" data-section="dashboard"><i class="fas fa-home"></i> Dashboard</li>
                 <li data-section="animals"><i class="fas fa-kiwi-bird"></i> Mis Animales</li>
                 <li data-section="buy"><i class="fas fa-shopping-cart"></i> Comprar Animales</li>
+                <li data-section="referral"><i class="fas fa-users"></i> Sistema de Referidos</li>
                 <li data-section="transactions"><i class="fas fa-exchange-alt"></i> Transacciones</li>
                 <li data-section="deposit"><i class="fas fa-dollar-sign"></i> Depositar TRX</li>
                 <li data-section="withdraw"><i class="fas fa-wallet"></i> Retirar TRX</li>
                 <li onclick="showDialog('confirm-dialog', '¿Estás seguro de que quieres cerrar sesión?', logout)"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</li>
+                <li><a href="https://t.me/cubamark10" target="_blank" style="color: inherit; text-decoration: none;"><i class="fab fa-telegram"></i> Soporte</a></li>
             </ul>
         </div>
         
@@ -856,6 +926,10 @@
                         <label for="login-password">Contraseña</label>
                         <input type="password" id="login-password" placeholder="Tu contraseña">
                     </div>
+                    <div class="form-group">
+                        <label for="login-referral">Código de referido (opcional)</label>
+                        <input type="text" id="login-referral" placeholder="Código de referido">
+                    </div>
                     <button class="btn btn-primary" onclick="login()">Iniciar Sesión</button>
                     <div id="login-alert" class="alert hidden"></div>
                 </div>
@@ -873,6 +947,10 @@
                         <label for="register-confirm">Confirmar contraseña</label>
                         <input type="password" id="register-confirm" placeholder="Repite tu contraseña">
                     </div>
+                    <div class="form-group">
+                        <label for="register-referral">Código de referido (opcional)</label>
+                        <input type="text" id="register-referral" placeholder="Código de referido">
+                    </div>
                     <button class="btn btn-primary" onclick="register()">Registrarse</button>
                     <div id="register-alert" class="alert hidden"></div>
                 </div>
@@ -884,6 +962,9 @@
                     <h2>Saldo disponible</h2>
                     <div class="balance-amount" id="balance-amount">0.00 TRX</div>
                     <p>Ganancias pendientes: <span id="pending-profits">0.00 TRX</span></p>
+                    <button class="btn btn-support" onclick="window.open('https://t.me/cubamark10', '_blank')">
+                        <i class="fab fa-telegram"></i> Soporte: @cubamark10
+                    </button>
                 </div>
                 
                 <div class="actions">
@@ -904,6 +985,46 @@
                     <div class="animals-grid" id="animals-grid">
                         <!-- Animales se cargarán aquí -->
                     </div>
+                </div>
+                
+                <!-- Sección de Sistema de Referidos -->
+                <div class="dashboard-section hidden" id="referral-section">
+                    <h3 class="section-title">Sistema de Referidos</h3>
+                    
+                    <div class="referral-code" id="referral-code-container">
+                        Tu código de referido: <span id="referral-code">Cargando...</span>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="copyReferralCode()">
+                        <i class="fas fa-copy"></i> Copiar código de referido
+                    </button>
+                    
+                    <div class="referral-stats">
+                        <div class="referral-stat">
+                            <div class="referral-stat-value" id="referral-count">0</div>
+                            <div class="referral-stat-label">Personas referidas</div>
+                        </div>
+                        <div class="referral-stat">
+                            <div class="referral-stat-value" id="referral-earnings">0.00 TRX</div>
+                            <div class="referral-stat-label">Ganancias por referidos</div>
+                        </div>
+                    </div>
+                    
+                    <h4>Comparte tu enlace de referido:</h4>
+                    <div class="input-with-button">
+                        <input type="text" id="referral-link" readonly>
+                        <button class="btn btn-small btn-primary" onclick="copyReferralLink()">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    
+                    <h4 class="mt-3">Cómo funciona:</h4>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>Comparte tu enlace único con amigos</li>
+                        <li>Cuando se registren con tu enlace, se convierten en tus referidos</li>
+                        <li>Recibirás el 5% de cada depósito que realicen</li>
+                        <li>Tus ganancias se acreditarán automáticamente</li>
+                    </ul>
                 </div>
                 
                 <!-- Sección de Mis Animales -->
@@ -1078,14 +1199,14 @@
     <script>
         // Configuración de Firebase
         const firebaseConfig = {
-             apiKey: "AIzaSyCPf1geb9QeaqqMWxWE1cHz2JksuHwyHJs",
-  authDomain: "granjatrx.firebaseapp.com",
-  databaseURL: "https://granjatrx-default-rtdb.firebaseio.com/",
-  projectId: "granjatrx",
-  storageBucket: "granjatrx.firebasestorage.app",
-  messagingSenderId: "902775659198",
-  appId: "1:902775659198:web:d5c4bb757f8e76c86bdcef",
-  measurementId: "G-EQL3B8E74W"
+            apiKey: "AIzaSyCPf1geb9QeaqqMWxWE1cHz2JksuHwyHJs",
+            authDomain: "granjatrx.firebaseapp.com",
+            databaseURL: "https://granjatrx-default-rtdb.firebaseio.com/",
+            projectId: "granjatrx",
+            storageBucket: "granjatrx.firebasestorage.app",
+            messagingSenderId: "902775659198",
+            appId: "1:902775659198:web:d5c4bb757f8e76c86bdcef",
+            measurementId: "G-EQL3B8E74W"
         };
         
         // Inicializar Firebase
@@ -1216,10 +1337,21 @@
             }, 3000);
         }
         
+        // Generar código de referido único
+        function generateReferralCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+        
         // Iniciar sesión
         function login() {
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
+            const referralCode = document.getElementById('login-referral').value;
             
             if (!email || !password) {
                 showAlert('login-alert', 'Por favor completa todos los campos', 'error');
@@ -1241,6 +1373,7 @@
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
             const confirm = document.getElementById('register-confirm').value;
+            const referralCode = document.getElementById('register-referral').value;
             
             if (!email || !password || !confirm) {
                 showAlert('register-alert', 'Por favor completa todos los campos', 'error');
@@ -1261,6 +1394,9 @@
                 .then((userCredential) => {
                     currentUser = userCredential.user;
                     
+                    // Generar código de referido único
+                    const userReferralCode = generateReferralCode();
+                    
                     // Crear documento inicial para el usuario con balance 0.00 TRX
                     return db.collection('users').doc(currentUser.uid).set({
                         email: email,
@@ -1268,15 +1404,50 @@
                         animals: [],
                         transactions: [],
                         pendingDeposits: [],
+                        referralCode: userReferralCode,
+                        referredBy: referralCode || null,
+                        referrals: [],
+                        referralEarnings: 0.00,
                         createdAt: new Date()
                     });
                 })
                 .then(() => {
                     showAlert('register-alert', 'Cuenta creada correctamente', 'success');
                     showToast('Cuenta creada correctamente. ¡Bienvenido/a!', 'success');
+                    
+                    // Si se usó un código de referido, registrar la referencia
+                    if (referralCode) {
+                        processReferral(referralCode);
+                    }
                 })
                 .catch((error) => {
                     showAlert('register-alert', error.message, 'error');
+                });
+        }
+        
+        // Procesar referido
+        function processReferral(referralCode) {
+            // Buscar al usuario que tiene este código de referido
+            db.collection('users').where('referralCode', '==', referralCode).get()
+                .then((querySnapshot) => {
+                    if (!querySnapshot.empty) {
+                        const referrerDoc = querySnapshot.docs[0];
+                        const referrerId = referrerDoc.id;
+                        const referrerData = referrerDoc.data();
+                        
+                        // Actualizar el referidor con el nuevo referido
+                        const updatedReferrals = [...(referrerData.referrals || []), currentUser.uid];
+                        
+                        return db.collection('users').doc(referrerId).update({
+                            referrals: updatedReferrals
+                        });
+                    }
+                })
+                .then(() => {
+                    console.log('Referido registrado correctamente');
+                })
+                .catch((error) => {
+                    console.error('Error al procesar referido:', error);
                 });
         }
         
@@ -1312,13 +1483,14 @@
         // Cargar animales disponibles
         function loadAnimals() {
             // Datos de ejemplo (en una app real, vendrían de Firestore)
+            // Modificado para que todos los animales generen 10% diario durante 30 días
             animals = [
                 { id: 'chicken', name: 'Gallina', price: 10, dailyProfit: 1, duration: 30, icon: '🐔' },
-                { id: 'cow', name: 'Vaca', price: 40, dailyProfit: 5, duration: 30, icon: '🐄' },
-                { id: 'pig', name: 'Cerdo', price: 80, dailyProfit: 10, duration: 30, icon: '🐖' },
-                { id: 'sheep', name: 'Oveja', price: 60, dailyProfit: 7, duration: 30, icon: '🐑' },
-                { id: 'goat', name: 'Cabra', price: 50, dailyProfit: 6, duration: 30, icon: '🐐' },
-                { id: 'horse', name: 'Caballo', price: 100, dailyProfit: 15, duration: 30, icon: '🐎' }
+                { id: 'cow', name: 'Vaca', price: 40, dailyProfit: 4, duration: 30, icon: '🐄' },
+                { id: 'pig', name: 'Cerdo', price: 80, dailyProfit: 8, duration: 30, icon: '🐖' },
+                { id: 'sheep', name: 'Oveja', price: 60, dailyProfit: 6, duration: 30, icon: '🐑' },
+                { id: 'goat', name: 'Cabra', price: 50, dailyProfit: 5, duration: 30, icon: '🐐' },
+                { id: 'horse', name: 'Caballo', price: 100, dailyProfit: 10, duration: 30, icon: '🐎' }
             ];
             
             renderAvailableAnimals();
@@ -1336,7 +1508,7 @@
                     <div class="animal-icon">${animal.icon}</div>
                     <div class="animal-name">${animal.name}</div>
                     <div class="animal-price">${animal.price} TRX</div>
-                    <div class="animal-stats">Produce: ${animal.dailyProfit} TRX/día</div>
+                    <div class="animal-stats">Produce: ${animal.dailyProfit} TRX/día (10%)</div>
                     <div class="animal-stats">Duración: ${animal.duration} días</div>
                     <button class="btn btn-primary" onclick="showDialog('confirm-dialog', '¿Estás seguro de que quieres comprar una ${animal.name} por ${animal.price} TRX?', () => buyAnimal('${animal.id}'))">Comprar</button>
                 `;
@@ -1402,6 +1574,51 @@
                 // Iniciar contador regresivo para este animal
                 startCountdown(index, remainingMs);
             });
+        }
+        
+        // Renderizar sección de referidos
+        function renderReferralSection() {
+            if (!userData) return;
+            
+            // Asegurarse de que el código de referido existe
+            const referralCode = userData.referralCode || 'Código no disponible';
+            document.getElementById('referral-code').textContent = referralCode;
+            
+            // Actualizar estadísticas
+            document.getElementById('referral-count').textContent = userData.referrals ? userData.referrals.length : 0;
+            document.getElementById('referral-earnings').textContent = (userData.referralEarnings || 0).toFixed(2) + ' TRX';
+            
+            // Generar enlace de referido solo si el código está disponible
+            if (userData.referralCode) {
+                const referralLink = `https://t.me/Granjatrx_bot?start=${userData.referralCode}`;
+                document.getElementById('referral-link').value = referralLink;
+            } else {
+                document.getElementById('referral-link').value = 'Código de referido no disponible';
+            }
+        }
+        
+        // Copiar código de referido
+        function copyReferralCode() {
+            const code = document.getElementById('referral-code').textContent;
+            if (code !== 'Código no disponible' && code !== 'Cargando...') {
+                navigator.clipboard.writeText(code).then(() => {
+                    showToast('Código de referido copiado', 'success');
+                });
+            } else {
+                showToast('El código de referido no está disponible', 'error');
+            }
+        }
+        
+        // Copiar enlace de referido
+        function copyReferralLink() {
+            const link = document.getElementById('referral-link').value;
+            if (link !== 'Código de referido no disponible') {
+                navigator.clipboard.writeText(link).then(() => {
+                    showToast('Enlace de referido copiado', 'success');
+                });
+            } else {
+                showToast('El enlace de referido no está disponible', 'error');
+            }
         }
         
         // Iniciar contador regresivo para un animal
@@ -1478,6 +1695,7 @@
                 if (transaction.type === 'withdrawal') transactionIcon = '⬆️';
                 if (transaction.type === 'purchase') transactionIcon = '🐶';
                 if (transaction.type === 'profit_claim') transactionIcon = '💰';
+                if (transaction.type === 'referral_bonus') transactionIcon = '👥';
                 
                 transactionItem.innerHTML = `
                     <div class="animal-item-icon">${transactionIcon}</div>
@@ -1707,6 +1925,48 @@
             });
         }
         
+        // Procesar pago de comisión por referido
+        function processReferralBonus(depositAmount, referredUserId) {
+            // Calcular el 5% del depósito
+            const bonusAmount = depositAmount * 0.05;
+            
+            // Buscar al usuario que refirió
+            db.collection('users').where('referrals', 'array-contains', referredUserId).get()
+                .then((querySnapshot) => {
+                    if (!querySnapshot.empty) {
+                        const referrerDoc = querySnapshot.docs[0];
+                        const referrerId = referrerDoc.id;
+                        const referrerData = referrerDoc.data();
+                        
+                        // Actualizar el balance del referidor
+                        const newBalance = (referrerData.balance || 0) + bonusAmount;
+                        const newReferralEarnings = (referrerData.referralEarnings || 0) + bonusAmount;
+                        
+                        // Registrar transacción de bono
+                        const transaction = {
+                            type: 'referral_bonus',
+                            amount: bonusAmount,
+                            date: new Date(),
+                            details: `Bono por referido: ${depositAmount} TRX depositados`
+                        };
+                        
+                        const updatedTransactions = [...(referrerData.transactions || []), transaction];
+                        
+                        return db.collection('users').doc(referrerId).update({
+                            balance: newBalance,
+                            referralEarnings: newReferralEarnings,
+                            transactions: updatedTransactions
+                        });
+                    }
+                })
+                .then(() => {
+                    console.log('Bono por referido procesado correctamente');
+                })
+                .catch((error) => {
+                    console.error('Error al procesar bono por referido:', error);
+                });
+        }
+        
         function processWithdraw() {
             const amount = parseFloat(document.getElementById('withdraw-modal-amount').value);
             const address = document.getElementById('withdraw-modal-address').value;
@@ -1716,7 +1976,7 @@
                 return;
             }
             
-            if (!address || !isValidTRXAddress(address)) {
+            if (!address || !isValidTRXAddress(address) || address === 'Código de referido no disponible') {
                 showInfo('Por favor ingresa una dirección TRX válida');
                 return;
             }
@@ -1917,6 +2177,9 @@
                 
                 // Mostrar animales del usuario
                 renderUserAnimals();
+                
+                // Mostrar sección de referidos
+                renderReferralSection();
                 
                 // Mostrar transacciones
                 renderTransactions();
