@@ -730,6 +730,7 @@
         .countdown-value {
             font-weight: bold;
             font-size: 1.1rem;
+            color: var(--secondary);
         }
         
         .countdown-label {
@@ -1315,6 +1316,20 @@
                     });
                 }
             });
+            
+            // Verificar si hay un código de referido en la URL
+            checkUrlForReferralCode();
+        }
+        
+        // Verificar si hay un código de referido en la URL
+        function checkUrlForReferralCode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const referralCode = urlParams.get('ref');
+            
+            if (referralCode) {
+                document.getElementById('referral-code-input').value = referralCode;
+                showInfo('Código de referido detectado: ' + referralCode);
+            }
         }
         
         // Alternar la barra lateral
@@ -1436,7 +1451,7 @@
                     currentUser = userCredential.user;
                     
                     // Generar código de referido único
-                    const referralCode = generateReferralCode();
+                    const userReferralCode = generateReferralCode();
                     
                     // Crear documento inicial para el usuario con balance 0.00 TRX
                     return db.collection('users').doc(currentUser.uid).set({
@@ -1445,9 +1460,10 @@
                         animals: [],
                         transactions: [],
                         pendingDeposits: [],
-                        referralCode: referralCode,
-                        referredBy: referralCode ? referralCode : null,
+                        referralCode: userReferralCode,
+                        referredBy: referralCode || null, // Guardar el código de referido si existe
                         referralEarnings: 0.00,
+                        referrals: [],
                         createdAt: new Date()
                     });
                 })
@@ -1472,6 +1488,7 @@
                 .then((querySnapshot) => {
                     if (!querySnapshot.empty) {
                         const referrerId = querySnapshot.docs[0].id;
+                        const referrerData = querySnapshot.docs[0].data();
                         
                         // Agregar este usuario a la lista de referidos del referrer
                         db.collection('users').doc(referrerId).update({
@@ -1479,10 +1496,18 @@
                                 userId: currentUser.uid,
                                 email: currentUser.email,
                                 date: new Date(),
-                                status: 'pending'
+                                status: 'pending',
+                                earned: 0
                             })
                         });
+                        
+                        showToast('¡Código de referido aplicado correctamente!', 'success');
+                    } else {
+                        showToast('Código de referido no válido', 'error');
                     }
+                })
+                .catch((error) => {
+                    console.error('Error procesando referido:', error);
                 });
         }
         
@@ -1538,6 +1563,11 @@
             const referralsList = document.getElementById('referrals-list');
             referralsList.innerHTML = '';
             
+            if (referrals.length === 0) {
+                referralsList.innerHTML = '<p>No tienes referidos todavía.</p>';
+                return;
+            }
+            
             referrals.forEach(referral => {
                 const referralItem = document.createElement('div');
                 referralItem.className = 'referral-item';
@@ -1545,7 +1575,7 @@
                 referralItem.innerHTML = `
                     <div class="referral-item-info">
                         <div class="referral-item-name">${referral.email}</div>
-                        <div class="referral-item-date">${referral.date.toDate().toLocaleDateString()}</div>
+                        <div class="referral-item-date">${new Date(referral.date.seconds * 1000).toLocaleDateString()}</div>
                     </div>
                     <div class="referral-item-amount">${referral.status === 'active' ? 'Activo' : 'Pendiente'}</div>
                 `;
@@ -1567,6 +1597,60 @@
             referralLink.select();
             document.execCommand('copy');
             showToast('Enlace copiado al portapapeles', 'success');
+        }
+        
+        // Acreditar comisión por referido
+        function creditReferralBonus(referrerId, amount, referredUserId) {
+            const bonusAmount = amount * 0.05; // 5% de comisión
+            
+            // Obtener datos del referente
+            db.collection('users').doc(referrerId).get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const referrerData = doc.data();
+                        
+                        // Actualizar balance del referente
+                        db.collection('users').doc(referrerId).update({
+                            balance: referrerData.balance + bonusAmount,
+                            referralEarnings: referrerData.referralEarnings + bonusAmount
+                        });
+                        
+                        // Actualizar estado del referido a "active" y agregar ganancias
+                        const updatedReferrals = referrerData.referrals.map(ref => {
+                            if (ref.userId === referredUserId) {
+                                return {
+                                    ...ref,
+                                    status: 'active',
+                                    earned: (ref.earned || 0) + bonusAmount
+                                };
+                            }
+                            return ref;
+                        });
+                        
+                        db.collection('users').doc(referrerId).update({
+                            referrals: updatedReferrals
+                        });
+                        
+                        // Registrar transacción de comisión
+                        const transaction = {
+                            type: 'referral_bonus',
+                            amount: bonusAmount,
+                            date: new Date(),
+                            details: `Comisión por referido: ${referredUserId}`
+                        };
+                        
+                        const updatedTransactions = [...(referrerData.transactions || []), transaction];
+                        
+                        db.collection('users').doc(referrerId).update({
+                            transactions: updatedTransactions
+                        });
+                        
+                        console.log(`Comisión de ${bonusAmount} TRX acreditada al referente ${referrerId}`);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error acreditando comisión:', error);
+                });
         }
         
         // Cerrar sesión
@@ -1960,6 +2044,11 @@
                 document.getElementById('deposit-amount').value = '';
                 document.getElementById('tx-hash-modal').value = '';
                 showToast('Solicitud de depósito enviada. Un administrador la revisará pronto.', 'info');
+                
+                // Si el usuario fue referido, procesar la comisión
+                if (userData.referredBy) {
+                    processDepositForReferral(amount);
+                }
             });
         }
         
@@ -1994,7 +2083,29 @@
                 document.getElementById('deposit-amount-modal').value = '';
                 document.getElementById('tx-hash').value = '';
                 showToast('Solicitud de depósito enviada. Un administrador la revisará pronto.', 'info');
+                
+                // Si el usuario fue referido, procesar la comisión
+                if (userData.referredBy) {
+                    processDepositForReferral(amount);
+                }
             });
+        }
+        
+        // Procesar depósito para referidos
+        function processDepositForReferral(amount) {
+            // Buscar al usuario que refirió a este usuario
+            db.collection('users').where('referralCode', '==', userData.referredBy).get()
+                .then((querySnapshot) => {
+                    if (!querySnapshot.empty) {
+                        const referrerId = querySnapshot.docs[0].id;
+                        
+                        // Acreditar comisión al referente
+                        creditReferralBonus(referrerId, amount, currentUser.uid);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error procesando comisión por referido:', error);
+                });
         }
         
         function processWithdraw() {
