@@ -481,6 +481,7 @@
             margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 1px solid #333;
+            position: relative;
         }
         
         .modal-title {
@@ -499,6 +500,9 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--gray);
+            position: absolute;
+            right: 0;
+            top: 0;
         }
         
         .modal-body {
@@ -900,25 +904,11 @@
             color: var(--success);
         }
         
-        .support-button {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: var(--primary);
-            color: white;
-            padding: 12px 15px;
-            border-radius: 50px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        
-        .support-button:hover {
-            background: var(--primary-dark);
+        /* Soporte en el menú lateral */
+        .support-menu-item {
+            margin-top: 20px;
+            border-top: 1px solid #333;
+            padding-top: 10px;
         }
     </style>
 </head>
@@ -948,6 +938,7 @@
                 <li data-section="transactions"><i class="fas fa-exchange-alt"></i> Transacciones</li>
                 <li data-section="deposit"><i class="fas fa-dollar-sign"></i> Depositar TRX</li>
                 <li data-section="withdraw"><i class="fas fa-wallet"></i> Retirar TRX</li>
+                <li class="support-menu-item" onclick="window.open('https://t.me/cubamark10', '_blank')"><i class="fab fa-telegram"></i> Soporte</li>
                 <li onclick="showDialog('confirm-dialog', '¿Estás seguro de que quieres cerrar sesión?', logout)"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</li>
             </ul>
         </div>
@@ -1232,11 +1223,6 @@
         <i class="fas fa-check-circle"></i>
         <span id="toast-message">Operación realizada con éxito</span>
     </div>
-
-    <!-- Botón de soporte -->
-    <a href="https://t.me/cubamark10" class="support-button" target="_blank">
-        <i class="fab fa-telegram"></i> Soporte
-    </a>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
