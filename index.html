@@ -985,8 +985,8 @@
                         <input type="password" id="register-confirm" placeholder="Repite tu contraseña">
                     </div>
                     <div class="form-group">
-                        <label for="referral-code-input">Código de referido (opcional)</label>
-                        <input type="text" id="referral-code-input" placeholder="Código de referido">
+                        <label for="referral-code-input">Código de referido</label>
+                        <input type="text" id="referral-code-input" placeholder="Código de referido" readonly>
                     </div>
                     <button class="btn btn-primary" onclick="register()">Registrarse</button>
                     <div id="register-alert" class="alert hidden"></div>
@@ -1312,7 +1312,15 @@
             
             if (referralCode) {
                 document.getElementById('referral-code-input').value = referralCode;
+                // Guardar en localStorage para persistencia
+                localStorage.setItem('referralCode', referralCode);
                 showInfo('Código de referido detectado: ' + referralCode);
+            } else {
+                // Si no hay código en la URL, intentar obtenerlo de localStorage
+                const savedRefCode = localStorage.getItem('referralCode');
+                if (savedRefCode) {
+                    document.getElementById('referral-code-input').value = savedRefCode;
+                }
             }
         }
         
@@ -1524,8 +1532,8 @@
             // Mostrar código de referido
             document.getElementById('user-referral-code').textContent = userData.referralCode;
             
-            // Generar enlace de referido
-            const referralLink = `${window.location.origin}${window.location.pathname}?ref=${userData.referralCode}`;
+            // Generar enlace de referido con el bot de Telegram
+            const referralLink = `https://t.me/Granjatrx_bot?start=${userData.referralCode}`;
             document.getElementById('referral-link').value = referralLink;
             
             // Calcular estadísticas de referidos
@@ -1984,7 +1992,6 @@
             let totalProfit = 0;
             const updatedAnimals = [...userData.animals];
             
-            // Calcular ganancias totales y actualizar animales
             userData.animals.forEach((animal, index) => {
                 const animalData = animals.find(a => a.id === animal.type);
                 const profit = parseFloat(calculateAnimalProfit(animal, animalData));
