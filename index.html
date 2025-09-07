@@ -6,6 +6,68 @@
     <title>Granja TRX</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Estilos para la pantalla de presentación */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .splash-logo {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            background-image: url('https://i.postimg.cc/vZmH99gN/IMG-1139.png');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(230, 0, 0, 0.3);
+            border: 3px solid #ffcc00;
+        }
+        
+        .splash-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(255, 204, 0, 0.5);
+        }
+        
+        .progress-container {
+            width: 80%;
+            max-width: 400px;
+            height: 20px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #e60000, #ffcc00);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .loading-text {
+            color: #f5f5f5;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+        
         :root {
             --primary: #e60000;
             --primary-dark: #b30000;
@@ -365,24 +427,84 @@
             margin-bottom: 5px;
         }
         
-        .progress-bar {
-            height: 8px;
+        /* NUEVA BARRA DE PROGRESO MEJORADA */
+        .progress-container-animal {
+            width: 100%;
+            height: 12px;
             background: #333;
-            border-radius: 4px;
+            border-radius: 10px;
             overflow: hidden;
             margin: 8px 0;
+            position: relative;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
         }
         
-        .progress {
+        .progress-fill {
             height: 100%;
-            background: var(--primary);
-            border-radius: 4px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            position: relative;
+            transition: width 0.5s ease-in-out;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(
+                -45deg, 
+                rgba(255,255,255,0.2) 25%, 
+                transparent 25%, 
+                transparent 50%, 
+                rgba(255,255,255,0.2) 50%, 
+                rgba(255,255,255,0.2) 75%, 
+                transparent 75%, 
+                transparent
+            );
+            z-index: 1;
+            background-size: 20px 20px;
+            animation: move 1s linear infinite;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        @keyframes move {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 20px 20px;
+            }
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .progress-percentage {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .progress-time {
+            font-size: 0.8rem;
+            color: var(--gray);
         }
         
         .animal-item-time {
             font-size: 0.9rem;
             color: var(--gray);
             margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
         }
         
         .animal-item-profit {
@@ -407,6 +529,7 @@
             display: flex;
             margin-bottom: 20px;
             border-bottom: 1px solid #333;
+            background: #2a2a2a;
         }
         
         .auth-tab {
@@ -620,6 +743,15 @@
             .dashboard-section {
                 padding: 15px;
             }
+            
+            .splash-title {
+                font-size: 2rem;
+            }
+            
+            .splash-logo {
+                width: 150px;
+                height: 150px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -634,6 +766,15 @@
             
             .animal-icon {
                 font-size: 2.5rem;
+            }
+            
+            .splash-title {
+                font-size: 1.8rem;
+            }
+            
+            .splash-logo {
+                width: 120px;
+                height: 120px;
             }
         }
         
@@ -925,7 +1066,17 @@
     </style>
 </head>
 <body>
-    <div class="app-container">
+    <!-- Pantalla de presentación -->
+    <div id="splash-screen">
+        <div class="splash-logo"></div>
+        <h1 class="splash-title">Granja TRX</h1>
+        <div class="progress-container">
+            <div class="progress-bar" id="splash-progress"></div>
+        </div>
+        <p class="loading-text">Cargando aplicación...</p>
+    </div>
+    
+    <div class="app-container" style="display: none;">
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
@@ -951,7 +1102,7 @@
                 <li data-section="deposit"><i class="fas fa-dollar-sign"></i> Depositar TRX</li>
                 <li data-section="withdraw"><i class="fas fa-wallet"></i> Retirar TRX</li>
                 <li class="support-menu-item" onclick="window.open('https://t.me/cubamark10', '_blank')"><i class="fab fa-telegram"></i> Soporte</li>
-                <li onclick="showDialog('confirm-dialog', '¿Estás seguro de que quieres cerrar sesión?', logout)"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</li>
+                <li onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</li>
             </ul>
         </div>
         
@@ -1000,7 +1151,7 @@
                     </div>
                     <div class="form-group">
                         <label for="referral-code-input">Código de referido</label>
-                        <input type="text" id="referral-code-input" placeholder="Código de referido" readonly>
+                        <input type="text" id="referral-code-input" placeholder="Código de referido">
                     </div>
                     <button class="btn btn-primary" onclick="register()">Registrarse</button>
                     <div id="register-alert" class="alert hidden"></div>
@@ -1099,9 +1250,8 @@
                     
                     <div class="form-group mt-3">
                         <label for="deposit-amount-modal">Cantidad a depositar</label>
-                        <input type="number" id="deposit-amount-modal" min="1" placeholder="Cantidad de TRX" step="0.01">
+                        <input type="number" id="deposit-amount-modal" placeholder="0.00 TRX">
                     </div>
-                    
                     <div class="form-group">
                         <label for="tx-hash">Hash de Transacción</label>
                         <input type="text" id="tx-hash" placeholder="Ingresa el hash de tu transacción">
@@ -1127,8 +1277,7 @@
                     
                     <div class="form-group">
                         <label for="withdraw-address">Dirección TRX</label>
-                        <input type="text" id="withdraw-address" placeholder="Ingresa tu dirección TRX" oninput="validateTRXAddress(this)">
-                        <small id="address-validation-message" class="hidden" style="color: var(--primary); margin-top: 5px;"></small>
+                        <input type="text" id="withdraw-address" placeholder="Ingresa tu dirección TRX">
                     </div>
                     <div class="form-group">
                         <label for="withdraw-amount">Cantidad a retirar (mínimo 10 TRX)</label>
@@ -1194,8 +1343,7 @@
                 </div>
                 <div class="form-group">
                     <label for="withdraw-modal-address">Dirección TRX</label>
-                    <input type="text" id="withdraw-modal-address" placeholder="Ingresa tu dirección TRX" oninput="validateTRXAddress(this)">
-                    <small id="modal-address-validation-message" class="hidden" style="color: var(--primary); margin-top: 5px;"></small>
+                    <input type="text" id="withdraw-modal-address" placeholder="Ingresa tu dirección TRX">
                 </div>
                 <div id="modal-withdraw-alert" class="alert hidden"></div>
             </div>
@@ -1676,12 +1824,6 @@
         
         // Cerrar sesión
         function logout() {
-            // Detener todos los temporizadores
-            for (let key in animalTimers) {
-                clearInterval(animalTimers[key]);
-            }
-            animalTimers = {};
-            
             auth.signOut().then(() => {
                 currentUser = null;
                 userData = { balance: 0, animals: [], transactions: [], pendingDeposits: [] };
@@ -1732,7 +1874,7 @@
                     <div class="animal-price">${animal.price} TRX</div>
                     <div class="animal-stats">Produce: ${animal.dailyProfit} TRX/día (5%)</div>
                     <div class="animal-stats">Duración: ${animal.duration} días</div>
-                    <button class="btn btn-primary" onclick="showDialog('confirm-dialog', '¿Estás seguro de que quieres comprar una ${animal.name} por ${animal.price} TRX?', () => buyAnimal('${animal.id}'))">Comprar</button>
+                    <button class="btn btn-primary" onclick="buyAnimal('${animal.id}')">Comprar</button>
                 `;
                 animalsGrid.appendChild(animalCard);
             });
@@ -1757,6 +1899,11 @@
                 
                 const progress = Math.min(100, (elapsedMs / totalDurationMs) * 100);
                 
+                // Calcular tiempo restante
+                const days = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((remainingMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
+                
                 const animalItem = document.createElement('div');
                 animalItem.className = 'animal-item';
                 animalItem.id = `animal-${index}`;
@@ -1765,26 +1912,16 @@
                         <div class="animal-item-icon">${animalData.icon}</div>
                         <div class="animal-item-info">
                             <div class="animal-item-name">${animalData.name}</div>
-                            <div class="progress-bar">
-                                <div class="progress" style="width: ${progress}%"></div>
+                            <div class="progress-info">
+                                <span class="progress-percentage">${progress.toFixed(1)}%</span>
+                                <span class="progress-time">${days}d ${hours}h ${minutes}m</span>
                             </div>
-                            <div class="countdown" id="countdown-${index}">
-                                <div class="countdown-item">
-                                    <span class="countdown-value" id="days-${index}">00</span>
-                                    <span class="countdown-label">Días</span>
-                                </div>
-                                <div class="countdown-item">
-                                    <span class="countdown-value" id="hours-${index}">00</span>
-                                    <span class="countdown-label">Horas</span>
-                                </div>
-                                <div class="countdown-item">
-                                    <span class="countdown-value" id="minutes-${index}">00</span>
-                                    <span class="countdown-label">Min</span>
-                                </div>
-                                <div class="countdown-item">
-                                    <span class="countdown-value" id="seconds-${index}">00</span>
-                                    <span class="countdown-label">Seg</span>
-                                </div>
+                            <div class="progress-container-animal">
+                                <div class="progress-fill" style="width: ${progress}%"></div>
+                            </div>
+                            <div class="animal-item-time">
+                                <span>Inicio: ${purchaseDate.toLocaleDateString()}</span>
+                                <span>Fin: ${new Date(purchaseDate.getTime() + totalDurationMs).toLocaleDateString()}</span>
                             </div>
                             <div class="animal-item-profit">Ganancias: ${calculateAnimalProfit(animal, animalData).toFixed(2)} TRX</div>
                         </div>
@@ -1792,47 +1929,7 @@
                     <button class="btn btn-success btn-small" onclick="claimAnimalProfit(${index})">Reclamar</button>
                 `;
                 animalsList.appendChild(animalItem);
-                
-                // Iniciar contador regresivo para este animal
-                startCountdown(index, remainingMs);
             });
-        }
-        
-        // Iniciar contador regresivo para un animal
-        function startCountdown(index, remainingMs) {
-            const countdownElement = document.getElementById(`countdown-${index}`);
-            
-            if (remainingMs <= 0) {
-                countdownElement.innerHTML = 'Finalizado';
-                return;
-            }
-            
-            // Actualizar inmediatamente
-            updateCountdown(index, remainingMs);
-            
-            // Actualizar cada segundo
-            animalTimers[`countdown-${index}`] = setInterval(() => {
-                remainingMs -= 1000;
-                if (remainingMs <= 0) {
-                    clearInterval(animalTimers[`countdown-${index}`]);
-                    countdownElement.innerHTML = 'Finalizado';
-                    return;
-                }
-                updateCountdown(index, remainingMs);
-            }, 1000);
-        }
-        
-        // Actualizar visualización del contador regresivo
-        function updateCountdown(index, remainingMs) {
-            const days = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((remainingMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((remainingMs % (1000 * 60)) / 1000);
-            
-            document.getElementById(`days-${index}`).textContent = days.toString().padStart(2, '0');
-            document.getElementById(`hours-${index}`).textContent = hours.toString().padStart(2, '0');
-            document.getElementById(`minutes-${index}`).textContent = minutes.toString().padStart(2, '0');
-            document.getElementById(`seconds-${index}`).textContent = seconds.toString().padStart(2, '0');
         }
         
         // Calcular ganancias para un animal específico
@@ -2168,8 +2265,8 @@
                 return;
             }
             
-            if (!address || !isValidTRXAddress(address)) {
-                showInfo('Por favor ingresa una dirección TRX válida');
+            if (!address) {
+                showInfo('Por favor ingresa una dirección TRX');
                 return;
             }
             
@@ -2223,7 +2320,7 @@
                 return;
             }
             
-            const newBalance = userData.balance - amount;
+            const newBalance = userData.balance + amount;
             
             // Registrar transacción
             const transaction = {
@@ -2246,41 +2343,6 @@
             });
         }
         
-        // Validar dirección TRX
-        function validateTRXAddress(input) {
-            const address = input.value;
-            const validationMessage = input.id.includes('modal') 
-                ? document.getElementById('modal-address-validation-message')
-                : document.getElementById('address-validation-message');
-                
-            if (!address) {
-                input.classList.remove('address-valid', 'address-invalid');
-                validationMessage.classList.add('hidden');
-                return;
-            }
-            
-            if (isValidTRXAddress(address) && address.startsWith('T')) {
-                input.classList.add('address-valid');
-                input.classList.remove('address-invalid');
-                validationMessage.textContent = '✓ Dirección TRX válida';
-                validationMessage.style.color = 'var(--success)';
-                validationMessage.classList.remove('hidden');
-            } else {
-                input.classList.add('address-invalid');
-                input.classList.remove('address-valid');
-                validationMessage.textContent = '✗ Dirección TRX inválida';
-                validationMessage.style.color = 'var(--primary)';
-                validationMessage.classList.remove('hidden');
-            }
-        }
-        
-        // Verificar si una dirección TRX es válida
-        function isValidTRXAddress(address) {
-            // En una app real, esto verificaría contra la red de TRON
-            // Por ahora, solo verificamos el formato básico
-            return address && address.length === 34;
-        }
-        
         // Copiar dirección al portapapeles
         function copyAddress() {
             const address = 'TPCyXAVQq8HZGY2Agjkd2PTTNrr7DfkPRz';
@@ -2297,25 +2359,6 @@
         // Cerrar modal
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
-        }
-        
-        // Mostrar diálogo de confirmación
-        function showDialog(dialogId, message, callback) {
-            document.getElementById('confirm-message').textContent = message;
-            const confirmBtn = document.getElementById('confirm-action-btn');
-            
-            // Guardar la función de callback como atributo personalizado
-            confirmBtn.setAttribute('data-callback', callback);
-            
-            // Asignar el evento de clic
-            confirmBtn.onclick = function() {
-                if (callback && typeof callback === 'function') {
-                    callback();
-                }
-                closeModal(dialogId);
-            };
-            
-            showModal(dialogId);
         }
         
         // Mostrar diálogo de información
@@ -2384,40 +2427,59 @@
                 
                 // Mostrar depósitos pendientes
                 renderPendingDeposits();
-                
-                // Iniciar temporizadores para animales
-                startAnimalTimers();
-            }
-        }
-        
-        // Iniciar todos los temporizadores de animales
-        function startAnimalTimers() {
-            // Detener temporizadores existentes
-            for (let key in animalTimers) {
-                clearInterval(animalTimers[key]);
-            }
-            
-            animalTimers = {};
-            
-            // Iniciar nuevos temporizadores para animales
-            if (userData.animals) {
-                userData.animals.forEach((animal, index) => {
-                    const animalData = animals.find(a => a.id === animal.type);
-                    const purchaseDate = animal.purchaseDate.toDate();
-                    const elapsedMs = Date.now() - purchaseDate;
-                    const totalDurationMs = animalData.duration * 24 * 60 * 60 * 1000;
-                    const remainingMs = Math.max(0, totalDurationMs - elapsedMs);
-                    
-                    startCountdown(index, remainingMs);
-                });
             }
         }
         
         // Inicializar la aplicación cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', initApp);
-        
-        // Variable global para los temporizadores de animales
-        let animalTimers = {};
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar eventos del menú
+            document.querySelectorAll('.sidebar-menu li[data-section]').forEach(item => {
+                item.addEventListener('click', function() {
+                    const section = this.getAttribute('data-section');
+                    showSection(section);
+                });
+            });
+            
+            // Configurar código de referido desde URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            if (refCode) {
+                document.getElementById('referral-code-input').value = refCode;
+                localStorage.setItem('referralCode', refCode);
+            } else {
+                const savedRefCode = localStorage.getItem('referralCode');
+                if (savedRefCode) {
+                    document.getElementById('referral-code-input').value = savedRefCode;
+                }
+            }
+            
+            // Inicializar la aplicación después de 4 segundos
+            setTimeout(() => {
+                // Ocultar pantalla de presentación
+                document.getElementById('splash-screen').style.opacity = '0';
+                
+                // Mostrar aplicación después de la transición
+                setTimeout(() => {
+                    document.getElementById('splash-screen').style.display = 'none';
+                    document.querySelector('.app-container').style.display = 'flex';
+                    
+                    // Inicializar la aplicación
+                    initApp();
+                }, 500);
+            }, 4000);
+            
+            // Animar la barra de progreso
+            let progress = 0;
+            const progressBar = document.getElementById('splash-progress');
+            const interval = setInterval(() => {
+                progress += 1;
+                progressBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            }, 40);
+        });
     </script>
 </body>
 </html>
