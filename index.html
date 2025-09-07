@@ -387,7 +387,7 @@
             margin-bottom: 10px;
         }
         
-        /* Auth Forms - CORREGIDO */
+        /* Auth Forms */
         .auth-container {
             max-width: 400px;
             margin: 20px auto;
@@ -494,6 +494,7 @@
         
         .modal-title i {
             font-size: 1.2rem;
+            color: var(--secondary);
         }
         
         .close {
@@ -553,7 +554,7 @@
             display: none;
         }
         
-        /* Responsive - MEJORADO */
+        /* Responsive */
         @media (min-width: 992px) {
             .sidebar {
                 left: 0;
@@ -588,7 +589,6 @@
                 left: 0;
             }
             
-            /* Asegurar que el auth container sea visible con teclado */
             .auth-container {
                 margin: 10px auto;
                 padding: 20px;
@@ -614,14 +614,12 @@
                 grid-template-columns: 1fr;
             }
             
-            /* Ajustar padding para móviles */
             .dashboard-section {
                 padding: 15px;
             }
         }
         
         @media (max-width: 480px) {
-            /* Mejorar visualización en móviles pequeños */
             .auth-container {
                 margin: 5px auto;
                 padding: 15px;
@@ -782,7 +780,7 @@
             margin-top: 1rem;
         }
         
-        /* Nuevos estilos para mejorar usabilidad en móviles */
+        /* Mobile usability */
         .mobile-scroll-container {
             max-height: calc(100vh - 150px);
             overflow-y: auto;
@@ -798,7 +796,7 @@
             flex: 1;
         }
         
-        /* Estilo para validación de direcciones TRX */
+        /* TRX address validation */
         .address-valid {
             border-color: var(--success) !important;
         }
@@ -807,7 +805,7 @@
             border-color: var(--primary) !important;
         }
         
-        /* Estilos para el sistema de referidos */
+        /* Referral system */
         .referral-section {
             background: #222;
             padding: 20px;
@@ -904,7 +902,7 @@
             color: var(--success);
         }
         
-        /* Soporte en el menú lateral */
+        /* Support menu item */
         .support-menu-item {
             margin-top: 20px;
             border-top: 1px solid #333;
@@ -953,7 +951,7 @@
                 <div class="header-balance" id="header-balance">0.00 TRX</div>
             </div>
             
-            <!-- Auth Container - MEJORADO para móviles -->
+            <!-- Auth Container -->
             <div id="auth-container" class="auth-container mobile-scroll-container">
                 <div class="auth-tabs">
                     <button class="auth-tab active" onclick="showAuthForm('login')">Iniciar Sesión</button>
@@ -1105,7 +1103,7 @@
                     </div>
                 </div>
                 
-                <!-- Sección de Retirar - MEJORADO con validación -->
+                <!-- Sección de Retirar -->
                 <div class="dashboard-section hidden" id="withdraw-section">
                     <h3 class="section-title">Retirar TRX</h3>
                     <div class="form-group">
@@ -1159,7 +1157,7 @@
         </div>
     </div>
     
-    <!-- Modal para retiro - MEJORADO con validación -->
+    <!-- Modal para retiro -->
     <div id="withdraw-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1339,6 +1337,11 @@
             if (sectionId === 'referrals') {
                 loadReferralData();
             }
+            
+            // Si es la sección de depósitos, cargar los depósitos pendientes
+            if (sectionId === 'deposit') {
+                renderPendingDeposits();
+            }
         }
         
         // Ajustar interfaz para móviles
@@ -1410,7 +1413,7 @@
                 });
         }
         
-        // Registrarse - MEJORADO para móviles
+        // Registrarse
         function register() {
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
@@ -1522,7 +1525,7 @@
             document.getElementById('user-referral-code').textContent = userData.referralCode;
             
             // Generar enlace de referido
-            const referralLink = `https://t.me/Granjatrx_bot?start=${userData.referralCode}`;
+            const referralLink = `${window.location.origin}${window.location.pathname}?ref=${userData.referralCode}`;
             document.getElementById('referral-link').value = referralLink;
             
             // Calcular estadísticas de referidos
@@ -1670,7 +1673,7 @@
         
         // Cargar animales disponibles
         function loadAnimals() {
-            // Datos de ejemplo (en una app real, vendrían de Firestore)
+            // Datos de ejemplo
             animals = [
                 { id: 'chicken', name: 'Gallina', price: 10, dailyProfit: 0.5, duration: 30, icon: '🐔' },
                 { id: 'cow', name: 'Vaca', price: 40, dailyProfit: 2, duration: 30, icon: '🐄' },
@@ -1850,6 +1853,31 @@
                     </div>
                 `;
                 transactionsList.appendChild(transactionItem);
+            });
+        }
+        
+        // Renderizar depósitos pendientes
+        function renderPendingDeposits() {
+            const pendingDepositsList = document.getElementById('pending-deposits-list');
+            pendingDepositsList.innerHTML = '';
+            
+            if (!userData.pendingDeposits || userData.pendingDeposits.length === 0) {
+                pendingDepositsList.innerHTML = '<p>No tienes depósitos pendientes de aprobación.</p>';
+                return;
+            }
+            
+            userData.pendingDeposits.slice().reverse().forEach((deposit, index) => {
+                const depositDate = deposit.date.toDate();
+                const depositItem = document.createElement('div');
+                depositItem.className = 'deposit-item';
+                
+                depositItem.innerHTML = `
+                    <div class="deposit-amount">${deposit.amount} TRX</div>
+                    <div class="deposit-date">${depositDate.toLocaleDateString()} ${depositDate.toLocaleTimeString()}</div>
+                    <div class="deposit-status">${deposit.status === 'pending' ? 'Pendiente' : deposit.status === 'approved' ? 'Aprobado' : 'Rechazado'}</div>
+                    <div class="deposit-date">Hash: ${deposit.txHash}</div>
+                `;
+                pendingDepositsList.appendChild(depositItem);
             });
         }
         
@@ -2188,7 +2216,7 @@
                 return;
             }
             
-            if (isValidTRXAddress(address)) {
+            if (isValidTRXAddress(address) && address.startsWith('T')) {
                 input.classList.add('address-valid');
                 input.classList.remove('address-invalid');
                 validationMessage.textContent = '✓ Dirección TRX válida';
@@ -2207,7 +2235,7 @@
         function isValidTRXAddress(address) {
             // En una app real, esto verificaría contra la red de TRON
             // Por ahora, solo verificamos el formato básico
-            return address && address.length === 34 && address.startsWith('T');
+            return address && address.length === 34;
         }
         
         // Copiar dirección al portapapeles
@@ -2310,6 +2338,9 @@
                 
                 // Mostrar transacciones
                 renderTransactions();
+                
+                // Mostrar depósitos pendientes
+                renderPendingDeposits();
                 
                 // Iniciar temporizadores para animales
                 startAnimalTimers();
