@@ -177,10 +177,13 @@
         .header-title {
             font-size: 1.2rem;
             font-weight: bold;
+            color: var(--light);
         }
         
         .header-balance {
             display: none;
+            font-weight: bold;
+            color: var(--secondary);
         }
         
         .balance-card {
@@ -237,6 +240,7 @@
         
         .btn i {
             margin-right: 8px;
+            font-size: 1rem;
         }
         
         .btn-primary {
@@ -437,6 +441,7 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            color: var(--light);
         }
         
         .form-group input {
@@ -577,8 +582,6 @@
         @media (max-width: 991px) {
             .header-balance {
                 display: block;
-                font-weight: bold;
-                color: var(--secondary);
             }
             
             .sidebar {
@@ -655,6 +658,7 @@
             word-break: break-all;
             text-align: center;
             border: 1px dashed var(--primary);
+            color: var(--light);
         }
         
         .copy-btn {
@@ -890,6 +894,7 @@
         
         .referral-item-name {
             font-weight: bold;
+            color: var(--light);
         }
         
         .referral-item-date {
@@ -907,6 +912,15 @@
             margin-top: 20px;
             border-top: 1px solid #333;
             padding-top: 10px;
+        }
+        
+        .withdraw-info {
+            background: rgba(255, 153, 0, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--warning);
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -1106,14 +1120,19 @@
                 <!-- Sección de Retirar -->
                 <div class="dashboard-section hidden" id="withdraw-section">
                     <h3 class="section-title">Retirar TRX</h3>
+                    
+                    <div class="withdraw-info">
+                        <i class="fas fa-info-circle"></i> El monto mínimo de retiro es de 10 TRX.
+                    </div>
+                    
                     <div class="form-group">
                         <label for="withdraw-address">Dirección TRX</label>
                         <input type="text" id="withdraw-address" placeholder="Ingresa tu dirección TRX" oninput="validateTRXAddress(this)">
                         <small id="address-validation-message" class="hidden" style="color: var(--primary); margin-top: 5px;"></small>
                     </div>
                     <div class="form-group">
-                        <label for="withdraw-amount">Cantidad a retirar</label>
-                        <input type="number" id="withdraw-amount" min="1" placeholder="Cantidad de TRX" step="0.01">
+                        <label for="withdraw-amount">Cantidad a retirar (mínimo 10 TRX)</label>
+                        <input type="number" id="withdraw-amount" min="10" placeholder="Cantidad de TRX" step="0.01">
                     </div>
                     <button class="btn btn-primary" onclick="withdraw()" id="withdraw-button">Solicitar retiro</button>
                     <div id="withdraw-alert" class="alert hidden mt-3"></div>
@@ -1165,9 +1184,13 @@
                 <span class="close" onclick="closeModal('withdraw-modal')">&times;</span>
             </div>
             <div class="modal-body">
+                <div class="withdraw-info">
+                    <i class="fas fa-info-circle"></i> El monto mínimo de retiro es de 10 TRX.
+                </div>
+                
                 <div class="form-group">
-                    <label for="withdraw-modal-amount">Cantidad a retirar</label>
-                    <input type="number" id="withdraw-modal-amount" min="0.01" placeholder="Cantidad de TRX" step="0.01">
+                    <label for="withdraw-modal-amount">Cantidad a retirar (mínimo 10 TRX)</label>
+                    <input type="number" id="withdraw-modal-amount" min="10" placeholder="Cantidad de TRX" step="0.01">
                 </div>
                 <div class="form-group">
                     <label for="withdraw-modal-address">Dirección TRX</label>
@@ -1252,6 +1275,7 @@
         let userAnimals = [];
         let transactions = [];
         let referralData = null;
+        const MIN_WITHDRAWAL = 10; // Mínimo de retiro: 10 TRX
         
         // Inicializar la aplicación
         function initApp() {
@@ -2138,6 +2162,12 @@
                 return;
             }
             
+            // Validar monto mínimo de retiro
+            if (amount < MIN_WITHDRAWAL) {
+                showInfo(`El monto mínimo de retiro es ${MIN_WITHDRAWAL} TRX`);
+                return;
+            }
+            
             if (!address || !isValidTRXAddress(address)) {
                 showInfo('Por favor ingresa una dirección TRX válida');
                 return;
@@ -2179,6 +2209,12 @@
             
             if (!address || !amount || amount <= 0) {
                 showInfo('Por favor completa todos los campos correctamente');
+                return;
+            }
+            
+            // Validar monto mínimo de retiro
+            if (amount < MIN_WITHDRAWAL) {
+                showInfo(`El monto mínimo de retiro es ${MIN_WITHDRAWAL} TRX`);
                 return;
             }
             
