@@ -1063,6 +1063,16 @@
             border-left: 4px solid var(--warning);
             font-size: 0.9rem;
         }
+
+        /* Password recovery link */
+        .password-recovery {
+            text-align: center;
+            margin-top: 15px;
+            color: var(--secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -1133,6 +1143,9 @@
                         <input type="password" id="login-password" placeholder="Tu contraseña">
                     </div>
                     <button class="btn btn-primary" onclick="login()">Iniciar Sesión</button>
+                    <div class="password-recovery" onclick="showModal('password-recovery-modal')">
+                        ¿Olvidaste tu contraseña?
+                    </div>
                     <div id="login-alert" class="alert hidden"></div>
                 </div>
                 
@@ -1350,6 +1363,30 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal('withdraw-modal')">Cancelar</button>
                 <button class="btn btn-primary" onclick="processWithdraw()" id="modal-withdraw-button">Solicitar retiro</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para recuperación de contraseña -->
+    <div id="password-recovery-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-key"></i> Recuperar Contraseña</h2>
+                <span class="close" onclick="closeModal('password-recovery-modal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="recovery-email">Correo electrónico</label>
+                    <input type="email" id="recovery-email" placeholder="Ingresa tu correo electrónico">
+                </div>
+                <div id="recovery-alert" class="alert hidden"></div>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> Te enviaremos un enlace para restablecer tu contraseña a tu correo electrónico.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('password-recovery-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="sendPasswordReset()">Enviar enlace</button>
             </div>
         </div>
     </div>
@@ -1647,6 +1684,28 @@
                 })
                 .catch((error) => {
                     showAlert('register-alert', error.message, 'error');
+                });
+        }
+        
+        // Enviar correo de recuperación de contraseña
+        function sendPasswordReset() {
+            const email = document.getElementById('recovery-email').value;
+            
+            if (!email) {
+                showAlert('recovery-alert', 'Por favor ingresa tu correo electrónico', 'error');
+                return;
+            }
+            
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    showAlert('recovery-alert', 'Se ha enviado un enlace de recuperación a tu correo electrónico', 'success');
+                    setTimeout(() => {
+                        closeModal('password-recovery-modal');
+                        document.getElementById('recovery-email').value = '';
+                    }, 3000);
+                })
+                .catch((error) => {
+                    showAlert('recovery-alert', error.message, 'error');
                 });
         }
         
