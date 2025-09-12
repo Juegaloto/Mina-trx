@@ -1293,8 +1293,8 @@
                         <input type="text" id="withdraw-address" placeholder="Ingresa tu dirección TRX">
                     </div>
                     <div class="form-group">
-                        <label for="withdraw-amount">Cantidad a retirar (mínimo 10 TRX)</label>
-                        <input type="number" id="withdraw-amount" min="10" placeholder="Cantidad de TRX" step="0.01">
+                        <label for="withdraw-amount">Cantidad a retirar (mínimo 3 TRX)</label>
+                        <input type="number" id="withdraw-amount" min="3" placeholder="Cantidad de TRX" step="0.01">
                     </div>
                     <button class="btn btn-primary" onclick="withdraw()" id="withdraw-button">Solicitar retiro</button>
                     <div id="withdraw-alert" class="alert hidden mt-3"></div>
@@ -1347,12 +1347,12 @@
             </div>
             <div class="modal-body">
                 <div class="withdraw-info">
-                    <i class="fas fa-info-circle"></i> El monto mínimo de retiro es de 10 TRX.
+                    <i class="fas fa-info-circle"></i> El monto mínimo de retiro es de 3 TRX.
                 </div>
                 
                 <div class="form-group">
-                    <label for="withdraw-modal-amount">Cantidad a retirar (mínimo 10 TRX)</label>
-                    <input type="number" id="withdraw-modal-amount" min="10" placeholder="Cantidad de TRX" step="0.01">
+                    <label for="withdraw-modal-amount">Cantidad a retirar (mínimo 3 TRX)</label>
+                    <input type="number" id="withdraw-modal-amount" min="3" placeholder="Cantidad de TRX" step="0.01">
                 </div>
                 <div class="form-group">
                     <label for="withdraw-modal-address">Dirección TRX</label>
@@ -1460,7 +1460,7 @@
         let userAnimals = [];
         let transactions = [];
         let referralData = null;
-        const MIN_WITHDRAWAL = 10; // Mínimo de retiro: 10 TRX
+        const MIN_WITHDRAWAL = 3; // Mínimo de retiro: 3 TRX
         
         // Inicializar la aplicación
         function initApp() {
