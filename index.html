@@ -165,7 +165,6 @@
         .user-info .user-name {
             font-weight: bold;
             margin-bottom: 5px;
-            color: var(--light);
         }
         
         .user-info .user-email {
@@ -247,12 +246,6 @@
             display: none;
             font-weight: bold;
             color: var(--secondary);
-        }
-        
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
         }
         
         .balance-card {
@@ -673,7 +666,7 @@
         .alert-error {
             background: rgba(255, 51, 51, 0.2);
             color: #ff3333;
-            border: 1px solid #ff3333);
+            border: 1px solid #ff3333;
         }
         
         .alert-warning {
@@ -914,8 +907,6 @@
             font-weight: bold;
             color: var(--secondary);
             margin-bottom: 5px;
-            display: flex;
-            justify-content: space-between;
         }
         
         .deposit-date {
@@ -1135,9 +1126,6 @@
                     <i class="fas fa-bars"></i>
                 </div>
                 <div class="header-title">Dashboard</div>
-                <div class="header-actions">
-                    <!-- Se eliminó el icono de campana del header -->
-                </div>
                 <div class="header-balance" id="header-balance">0.00 TRX</div>
             </div>
             
@@ -1300,7 +1288,7 @@
                     <h3 class="section-title">Retirar TRX</h3>
                     
                     <div class="withdraw-info">
-                        <i class="fas fa-info-circle"></i> El monto mínimo de retiro es de 10 TRX.
+                        <i class="fas fa-info-circle"></i> El monto mínimo de retiro es de 3 TRX.
                     </div>
                     
                     <div class="form-group">
@@ -1476,7 +1464,6 @@
         let transactions = [];
         let referralData = null;
         const MIN_WITHDRAWAL = 3; // Mínimo de retiro: 3 TRX
-        const MAX_ANIMAL_PURCHASES = 5; // Límite de 5 compras por animal
         
         // Inicializar la aplicación
         function initApp() {
@@ -1686,7 +1673,6 @@
                         referredBy: referralCode || null, // Guardar el código de referido si existe
                         referralEarnings: 0.00,
                         referrals: [],
-                        animalPurchases: {}, // Nuevo campo para contar compras por animal
                         createdAt: new Date()
                     });
                 })
@@ -1866,7 +1852,7 @@
                                 return {
                                     ...ref,
                                     status: 'active',
-                                    earned: (ref.earned || 0) + bonusAmount
+                                    earned: (ref.earred || 0) + bonusAmount
                                 };
                             }
                             return ref;
@@ -1946,22 +1932,13 @@
             animals.forEach(animal => {
                 const animalCard = document.createElement('div');
                 animalCard.className = 'animal-card';
-                
-                // Verificar si el usuario ya ha comprado el máximo de este animal
-                const userAnimalCount = userData && userData.animalPurchases ? (userData.animalPurchases[animal.id] || 0) : 0;
-                const canBuyMore = userAnimalCount < MAX_ANIMAL_PURCHASES;
-                const buttonText = canBuyMore ? 'Comprar' : 'Límite alcanzado';
-                const buttonClass = canBuyMore ? 'btn-primary' : 'btn-secondary';
-                const buttonDisabled = !canBuyMore ? 'disabled' : '';
-                
                 animalCard.innerHTML = `
                     <div class="animal-icon">${animal.icon}</div>
                     <div class="animal-name">${animal.name}</div>
                     <div class="animal-price">${animal.price} TRX</div>
                     <div class="animal-stats">Produce: ${animal.dailyProfit} TRX/día (5%)</div>
                     <div class="animal-stats">Duración: ${animal.duration} días</div>
-                    <div class="animal-stats">Comprados: ${userAnimalCount}/${MAX_ANIMAL_PURCHASES}</div>
-                    <button class="btn ${buttonClass}" onclick="buyAnimal('${animal.id}')" ${buttonDisabled}>${buttonText}</button>
+                    <button class="btn btn-primary" onclick="buyAnimal('${animal.id}')">Comprar</button>
                 `;
                 animalsGrid.appendChild(animalCard);
             });
@@ -2117,13 +2094,6 @@
             
             const animal = animals.find(a => a.id === animalId);
             
-            // Verificar si el usuario ya ha comprado el máximo de este animal
-            const userAnimalCount = userData.animalPurchases ? (userData.animalPurchases[animalId] || 0) : 0;
-            if (userAnimalCount >= MAX_ANIMAL_PURCHASES) {
-                showInfo('Ya has comprado el máximo permitido de este animal (5 unidades)');
-                return;
-            }
-            
             if (userData.balance < animal.price) {
                 showInfo('No tienes suficiente saldo para comprar este animal');
                 return;
@@ -2137,12 +2107,6 @@
             };
             
             const updatedAnimals = [...(userData.animals || []), newAnimal];
-            
-            // Actualizar contador de compras para este animal
-            const updatedAnimalPurchases = {
-                ...(userData.animalPurchases || {}),
-                [animalId]: (userData.animalPurchases && userData.animalPurchases[animalId] || 0) + 1
-            };
             
             // Registrar transacción
             const transaction = {
@@ -2158,10 +2122,9 @@
             db.collection('users').doc(currentUser.uid).update({
                 balance: newBalance,
                 animals: updatedAnimals,
-                transactions: updatedTransactions,
-                animalPurchases: updatedAnimalPurchases
+                transactions: updatedTransactions
             }).then(() => {
-                showToast(`${animal.name} comprado correctamente`, 'success');
+                showToast(`${animal.name} comprada correctamente`, 'success');
             });
         }
         
@@ -2522,9 +2485,6 @@
                 
                 // Mostrar animales del usuario
                 renderUserAnimals();
-                
-                // Mostrar animales disponibles (con límites)
-                renderAvailableAnimals();
                 
                 // Mostrar transacciones
                 renderTransactions();
