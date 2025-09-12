@@ -632,6 +632,9 @@
             position: absolute;
             right: 0;
             top: 0;
+            background: none;
+            border: none;
+            color: var(--light);
         }
         
         .modal-body {
@@ -1849,7 +1852,7 @@
                                 return {
                                     ...ref,
                                     status: 'active',
-                                    earned: (ref.earned || 0) + bonusAmount
+                                    earned: (ref.earred || 0) + bonusAmount
                                 };
                             }
                             return ref;
@@ -1906,8 +1909,10 @@
         
         // Cargar animales disponibles
         function loadAnimals() {
-            // Datos de ejemplo
+            // Datos de ejemplo (incluyendo los 2 nuevos animales)
             animals = [
+                { id: 'rabbit', name: 'Conejo', price: 3, dailyProfit: 0.15, duration: 30, icon: '🐰' },
+                { id: 'duck', name: 'Pato', price: 4, dailyProfit: 0.2, duration: 30, icon: '🦆' },
                 { id: 'chicken', name: 'Gallina', price: 10, dailyProfit: 0.5, duration: 30, icon: '🐔' },
                 { id: 'cow', name: 'Vaca', price: 40, dailyProfit: 2, duration: 30, icon: '🐄' },
                 { id: 'pig', name: 'Cerdo', price: 80, dailyProfit: 4, duration: 30, icon: '🐖' },
