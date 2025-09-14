@@ -186,11 +186,16 @@
         
         .ip-info {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            bottom: -20px;
+            left: 0;
+            right: 0;
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.7);
-            cursor: help;
+            color: #00ff00; /* Verde para la IP */
+            text-align: center;
+            padding: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            margin: 5px;
         }
         
         .user-info .user-avatar {
@@ -206,6 +211,10 @@
             color: var(--primary);
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             transition: transform 0.3s ease;
+            background-image: url('https://i.postimg.cc/JhsshQck/IMG-1190.png');
+            background-size: cover;
+            background-position: center;
+            cursor: default;
         }
         
         .user-info .user-avatar:hover {
@@ -767,6 +776,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            max-width: 85%;
         }
         
         .modal-title i {
@@ -1236,7 +1246,7 @@
     <!-- Pantalla de presentación -->
     <div id="splash-screen">
         <div class="splash-logo"></div>
-        <h1 class="splash-title">Granja TRX</h1>
+        <h1 class="splash-title">Granja </h1>
         <div class="progress-container">
             <div class="progress-bar" id="splash-progress"></div>
         </div>
@@ -1251,17 +1261,17 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <span class="close-sidebar" onclick="toggleSidebar()">&times;</span>
-                <h2><i class="fas fa-tractor"></i> Granja TRX</h2>
+                <h2><i class="fas fa-tractor"></i> Granja</h2>
             </div>
             
             <div class="user-info">
-                <div class="ip-info" title="Dirección IP del usuario">IP: <span id="user-ip">Cargando...</span></div>
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
+                <div class="user-avatar" id="user-avatar">
+                    <!-- Logo fijo en lugar de foto de perfil -->
                 </div>
                 <div class="user-name" id="user-name">Usuario</div>
                 <div class="user-email" id="user-email">user@example.com</div>
                 <div class="user-balance" id="sidebar-balance">0.00 TRX</div>
+                <div class="ip-info">IP: <span id="user-ip">Cargando...</span></div>
             </div>
             
             <ul class="sidebar-menu">
@@ -1416,7 +1426,7 @@
                 <!-- Sección de Depositar -->
                 <div class="dashboard-section hidden" id="deposit-section">
                     <h3 class="section-title">Depositar TRX</h3>
-                    <p>Para depositar TRX, envía la cantidad deseada a la siguiente dirección:</p>
+                    <p>Para depositar TRX TRC20 envía la cantidad deseada a la siguiente dirección:</p>
                     <div class="trx-address" id="trx-address">TPCyXAVQq8HZGY2Agjkd2PTTNrr7DfkPRz</div>
                     <button class="copy-btn" onclick="copyAddress()">
                         <i class="fas fa-copy"></i> Copiar dirección
@@ -1595,6 +1605,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
     
     <script>
         // Configuración de Firebase
@@ -1613,6 +1624,7 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
+        const storage = firebase.storage();
         
         // Variables globales
         let currentUser = null;
@@ -1863,7 +1875,7 @@
             // Verificar si la IP ya está registrada
             const ipAlreadyRegistered = await checkIPRegistration(userIP);
             if (ipAlreadyRegistered) {
-                showAlert('register-alert', 'Solo se permite una cuenta por dirección IP', 'error');
+                showAlert('register-alert', 'Solo se permite una cuenta por dispositivo. Ya existe una cuenta registrada desde esta dirección IP.', 'error');
                 return;
             }
             
@@ -1886,7 +1898,9 @@
                         referralEarnings: 0.00,
                         referrals: [],
                         ipAddress: userIP, // Guardar la dirección IP
-                        createdAt: new Date()
+                        createdAt: new Date(),
+                        // Añadir un conejo gratis para usuarios nuevos
+                        hasReceivedWelcomeBonus: false
                     });
                 })
                 .then(() => {
@@ -1895,12 +1909,36 @@
                         processReferral(referralCode);
                     }
                     
+                    // Dar conejo gratis al usuario nuevo
+                    giveWelcomeBonus();
+                    
                     showAlert('register-alert', 'Cuenta creada correctamente', 'success');
                     showToast('Cuenta creada correctamente. ¡Bienvenido/a!', 'success');
                 })
                 .catch((error) => {
                     showAlert('register-alert', error.message, 'error');
                 });
+        }
+        
+        // Dar conejo gratis a usuarios nuevos
+        function giveWelcomeBonus() {
+            if (!currentUser) return;
+            
+            // Conejo gratis para nuevos usuarios
+            const welcomeAnimal = {
+                type: 'rabbit',
+                purchaseDate: new Date(),
+                claimedProfits: 0,
+                isWelcomeBonus: true
+            };
+            
+            // Actualizar base de datos
+            db.collection('users').doc(currentUser.uid).update({
+                animals: firebase.firestore.FieldValue.arrayUnion(welcomeAnimal),
+                hasReceivedWelcomeBonus: true
+            }).then(() => {
+                showToast('¡Felicidades! Has recibido un conejo gratis como regalo de bienvenida.', 'success');
+            });
         }
         
         // Enviar correo de recuperación de contraseña
@@ -2207,11 +2245,15 @@
                 const animalItem = document.createElement('div');
                 animalItem.className = 'animal-item';
                 animalItem.id = `animal-${index}`;
+                
+                // Mostrar etiqueta especial para el conejo de regalo
+                const welcomeBadge = animal.isWelcomeBonus ? '<span style="color: var(--success); font-weight: bold;">(Regalo de bienvenida)</span>' : '';
+                
                 animalItem.innerHTML = `
                     <div class="animal-item-header">
                         <div class="animal-item-icon">${animalData.icon}</div>
                         <div class="animal-item-info">
-                            <div class="animal-item-name">${animalData.name}</div>
+                            <div class="animal-item-name">${animalData.name} ${welcomeBadge}</div>
                             <div class="progress-info">
                                 <span class="progress-percentage">${progress.toFixed(1)}%</span>
                                 <span class="progress-time">${days}d ${hours}h ${minutes}m</span>
