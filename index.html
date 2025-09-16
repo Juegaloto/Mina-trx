@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Granja</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -24,6 +24,9 @@
             --text-dark: #333333;
             --text-light: #ffffff;
             --border-color: #e0e0e0;
+            --font-size-sm: 0.85rem;
+            --font-size-md: 0.95rem;
+            --font-size-lg: 1.1rem;
         }
         
         /* Estilos para la pantalla de presentación */
@@ -55,7 +58,7 @@
         }
         
         .splash-title {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: bold;
             color: var(--secondary);
             margin-bottom: 20px;
@@ -84,7 +87,7 @@
         
         .loading-text {
             color: var(--secondary);
-            font-size: 1rem;
+            font-size: var(--font-size-md);
             margin-top: 15px;
         }
         
@@ -93,6 +96,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
@@ -100,6 +104,8 @@
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
+            font-size: var(--font-size-md);
+            touch-action: manipulation;
         }
         
         /* Layout */
@@ -172,7 +178,7 @@
         
         .sidebar-header h2 {
             color: var(--secondary);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-top: 10px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
@@ -190,7 +196,7 @@
             left: 0;
             right: 0;
             font-size: 0.7rem;
-            color: #00ff00; /* Verde para la IP */
+            color: #00ff00;
             text-align: center;
             padding: 5px;
             background: rgba(0, 0, 0, 0.3);
@@ -225,16 +231,17 @@
             font-weight: bold;
             margin-bottom: 5px;
             color: var(--secondary);
+            font-size: var(--font-size-md);
         }
         
         .user-info .user-email {
-            font-size: 0.8rem;
+            font-size: var(--font-size-sm);
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 10px;
         }
         
         .user-balance {
-            font-size: 1.2rem;
+            font-size: var(--font-size-md);
             font-weight: bold;
             color: var(--secondary);
             background: rgba(255, 255, 255, 0.2);
@@ -258,6 +265,7 @@
             color: var(--secondary);
             position: relative;
             overflow: hidden;
+            font-size: var(--font-size-md);
         }
         
         .sidebar-menu li:before {
@@ -291,6 +299,7 @@
             width: 20px;
             text-align: center;
             transition: transform 0.3s ease;
+            font-size: var(--font-size-md);
         }
         
         .sidebar-menu li:hover i {
@@ -330,7 +339,7 @@
         }
         
         .header-title {
-            font-size: 1.2rem;
+            font-size: var(--font-size-lg);
             font-weight: bold;
             color: var(--primary);
         }
@@ -339,6 +348,7 @@
             display: none;
             font-weight: bold;
             color: var(--primary);
+            font-size: var(--font-size-md);
         }
         
         .balance-card {
@@ -352,7 +362,7 @@
         }
         
         .balance-amount {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: bold;
             margin: 10px 0;
             color: var(--secondary);
@@ -369,7 +379,7 @@
         }
         
         .section-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 15px;
             color: var(--primary);
             border-bottom: 1px solid var(--border-color);
@@ -381,6 +391,7 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
+            margin-top: 20px;
         }
         
         .btn {
@@ -393,11 +404,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: var(--font-size-md);
         }
         
         .btn i {
             margin-right: 8px;
-            font-size: 1rem;
+            font-size: var(--font-size-md);
         }
         
         .btn-primary {
@@ -448,7 +460,7 @@
         
         .btn-small {
             padding: 6px 10px;
-            font-size: 0.8rem;
+            font-size: var(--font-size-sm);
         }
         
         .btn-disabled {
@@ -501,7 +513,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: var(--font-size-sm);
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             border: 2px solid var(--secondary);
@@ -521,7 +533,7 @@
         }
         
         .animal-icon {
-            font-size: 3rem;
+            font-size: 2.8rem;
             margin-bottom: 10px;
             transition: transform 0.3s ease;
         }
@@ -534,16 +546,18 @@
             font-weight: bold;
             margin-bottom: 5px;
             color: var(--primary);
+            font-size: var(--font-size-md);
         }
         
         .animal-price {
             color: var(--primary);
             font-weight: bold;
             margin-bottom: 10px;
+            font-size: var(--font-size-lg);
         }
         
         .animal-stats {
-            font-size: 0.9rem;
+            font-size: var(--font-size-sm);
             margin-bottom: 15px;
             color: var(--gray);
         }
@@ -570,7 +584,7 @@
         }
         
         .animal-item-icon {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-right: 15px;
         }
         
@@ -582,6 +596,7 @@
             font-weight: bold;
             margin-bottom: 5px;
             color: var(--primary);
+            font-size: var(--font-size-md);
         }
         
         /* NUEVA BARRA DE PROGRESO MEJORADA */
@@ -646,18 +661,18 @@
         }
         
         .progress-percentage {
-            font-size: 0.8rem;
+            font-size: var(--font-size-sm);
             font-weight: bold;
             color: var(--primary);
         }
         
         .progress-time {
-            font-size: 0.8rem;
+            font-size: var(--font-size-sm);
             color: var(--gray);
         }
         
         .animal-item-time {
-            font-size: 0.9rem;
+            font-size: var(--font-size-sm);
             color: var(--gray);
             margin-bottom: 5px;
             display: flex;
@@ -668,6 +683,7 @@
             font-weight: bold;
             color: var(--success);
             margin-bottom: 10px;
+            font-size: var(--font-size-md);
         }
         
         /* Auth Forms */
@@ -699,6 +715,7 @@
             border: none;
             transition: background 0.3s;
             color: var(--text-dark);
+            font-size: var(--font-size-md);
         }
         
         .auth-tab.active {
@@ -723,6 +740,7 @@
             margin-bottom: 5px;
             font-weight: bold;
             color: var(--text-dark);
+            font-size: var(--font-size-md);
         }
         
         .form-group input {
@@ -732,6 +750,7 @@
             border-radius: 4px;
             background: var(--secondary);
             color: var(--text-dark);
+            font-size: var(--font-size-md);
         }
         
         /* Modals */
@@ -771,7 +790,7 @@
         }
         
         .modal-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: var(--primary);
             display: flex;
             align-items: center;
@@ -814,6 +833,7 @@
             margin: 10px 0;
             border-radius: 4px;
             text-align: center;
+            font-size: var(--font-size-md);
         }
         
         .alert-success {
@@ -911,7 +931,7 @@
             }
             
             .splash-title {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .splash-logo {
@@ -927,15 +947,15 @@
             }
             
             .balance-amount {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .animal-icon {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
             
             .splash-title {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
             }
             
             .splash-logo {
@@ -966,6 +986,7 @@
             text-align: center;
             border: 1px dashed var(--primary);
             color: var(--text-dark);
+            font-size: var(--font-size-sm);
         }
         
         .copy-btn {
@@ -976,6 +997,7 @@
             border-radius: 4px;
             cursor: pointer;
             margin-top: 10px;
+            font-size: var(--font-size-md);
         }
         
         /* Toast notifications */
@@ -994,6 +1016,7 @@
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.3s;
+            font-size: var(--font-size-md);
         }
         
         .toast.show {
@@ -1026,7 +1049,7 @@
         .countdown {
             display: flex;
             gap: 5px;
-            font-size: 0.9rem;
+            font-size: var(--font-size-sm);
             color: var(--primary);
         }
         
@@ -1042,7 +1065,7 @@
         
         .countdown-value {
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: var(--font-size-md);
             color: var(--primary);
         }
         
@@ -1070,10 +1093,11 @@
             font-weight: bold;
             color: var(--primary);
             margin-bottom: 5px;
+            font-size: var(--font-size-md);
         }
         
         .deposit-date {
-            font-size: 0.9rem;
+            font-size: var(--font-size-sm);
             color: var(--gray);
             margin-bottom: 5px;
         }
@@ -1082,7 +1106,7 @@
             display: inline-block;
             padding: 4px 8px;
             border-radius: 4px;
-            font-size: 0.8rem;
+            font-size: var(--font-size-sm);
             background: rgba(255, 153, 0, 0.2);
             color: var(--warning);
         }
@@ -1135,7 +1159,7 @@
             word-break: break-all;
             text-align: center;
             border: 1px dashed var(--primary);
-            font-size: 1.2rem;
+            font-size: var(--font-size-md);
             font-weight: bold;
             color: var(--primary);
         }
@@ -1153,6 +1177,7 @@
             border: 1px solid var(--border-color);
             border-radius: 4px;
             color: var(--text-dark);
+            font-size: var(--font-size-sm);
         }
         
         .referral-stats {
@@ -1170,14 +1195,14 @@
         }
         
         .referral-stat-value {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--primary);
             margin-bottom: 5px;
         }
         
         .referral-stat-label {
-            font-size: 0.9rem;
+            font-size: var(--font-size-sm);
             color: var(--gray);
         }
         
@@ -1203,16 +1228,18 @@
         .referral-item-name {
             font-weight: bold;
             color: var(--text-dark);
+            font-size: var(--font-size-md);
         }
         
         .referral-item-date {
-            font-size: 0.8rem;
+            font-size: var(--font-size-sm);
             color: var(--gray);
         }
         
         .referral-item-amount {
             font-weight: bold;
             color: var(--success);
+            font-size: var(--font-size-md);
         }
         
         /* Support menu item */
@@ -1228,7 +1255,7 @@
             border-radius: 8px;
             margin-bottom: 15px;
             border-left: 4px solid var(--warning);
-            font-size: 0.9rem;
+            font-size: var(--font-size-sm);
         }
 
         /* Password recovery link */
@@ -1237,8 +1264,228 @@
             margin-top: 15px;
             color: var(--primary);
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: var(--font-size-sm);
             text-decoration: underline;
+        }
+        
+        /* Top Referrers Section */
+        .top-referrers {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+        }
+        
+        .top-referrers-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .top-referrers-title i {
+            color: var(--primary);
+        }
+        
+        .top-referrers-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .top-referrer-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: var(--secondary-dark);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .top-referrer-item:hover {
+            transform: translateX(5px);
+            background: rgba(230, 0, 0, 0.05);
+        }
+        
+        .top-referrer-rank {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-size: var(--font-size-sm);
+        }
+        
+        .top-referrer-rank.top-1 {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .top-referrer-rank.top-2 {
+            background: linear-gradient(135deg, #C0C0C0, #A9A9A9);
+            box-shadow: 0 0 10px rgba(192, 192, 192, 0.5);
+        }
+        
+        .top-referrer-rank.top-3 {
+            background: linear-gradient(135deg, #CD7F32, #8B4513);
+            box-shadow: 0 0 10px rgba(205, 127, 50, 0.5);
+        }
+        
+        .top-referrer-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .top-referrer-name {
+            font-weight: bold;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: var(--font-size-md);
+        }
+        
+        .top-referrer-email {
+            font-size: var(--font-size-sm);
+            color: var(--gray);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .top-referrer-stats {
+            text-align: right;
+            margin-left: 15px;
+        }
+        
+        .top-referrer-count {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: var(--font-size-md);
+        }
+        
+        .top-referrer-label {
+            font-size: var(--font-size-sm);
+            color: var(--gray);
+        }
+        
+        .refresh-button {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        /* CORRECCIONES ESPECÍFICAS PARA EL SISTEMA DE REFERIDOS EN MÓVIL */
+        @media (max-width: 768px) {
+            .referral-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .referral-stat {
+                padding: 12px 8px;
+            }
+            
+            .referral-stat-value {
+                font-size: 1.1rem;
+            }
+            
+            .referral-stat-label {
+                font-size: 0.75rem;
+            }
+            
+            .referral-link {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .referral-link input {
+                width: 100%;
+                font-size: 0.85rem;
+                padding: 12px;
+            }
+            
+            .referral-link button {
+                width: 100%;
+            }
+            
+            .referral-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .referral-item-amount {
+                align-self: flex-end;
+                margin-top: -30px;
+            }
+            
+            .top-referrer-item {
+                padding: 10px;
+            }
+            
+            .top-referrer-rank {
+                width: 25px;
+                height: 25px;
+                margin-right: 10px;
+                font-size: 0.8rem;
+            }
+            
+            .top-referrer-name {
+                font-size: 0.9rem;
+            }
+            
+            .top-referrer-email {
+                font-size: 0.8rem;
+            }
+            
+            .top-referrer-count {
+                font-size: 0.9rem;
+            }
+            
+            .top-referrer-label {
+                font-size: 0.7rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .referral-stats {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .referral-stat {
+                padding: 10px;
+            }
+            
+            .referral-code {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            .top-referrer-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .top-referrer-stats {
+                margin-left: 0;
+                align-self: flex-end;
+                text-align: right;
+            }
         }
     </style>
 </head>
@@ -1405,6 +1652,21 @@
                     <div class="referral-list" id="referrals-list">
                         <!-- Lista de referidos se cargará aquí -->
                     </div>
+                    
+                    <!-- Nueva sección: Top 10 usuarios con más referidos -->
+                    <div class="top-referrers">
+                        <h3 class="top-referrers-title">
+                            <i class="fas fa-trophy"></i> Top 10 Referidores
+                        </h3>
+                        <div class="top-referrers-list" id="top-referrers-list">
+                            <!-- Top referrers se cargará aquí -->
+                        </div>
+                        <div class="refresh-button">
+                            <button class="btn btn-primary" onclick="loadTopReferrers()">
+                                <i class="fas fa-sync-alt"></i> Actualizar
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Sección de Mis Animales -->
@@ -1446,7 +1708,7 @@
                     <div class="pending-deposits">
                         <h4 class="mt-3">Depósitos pendientes de aprobación</h4>
                         <div id="pending-deposits-list">
-                            <!-- Depósitos pendientes se cargarán aquí -->
+                            <!-- Depósitos pendientes se cargará aquí -->
                         </div>
                     </div>
                 </div>
@@ -1773,6 +2035,7 @@
             // Si es la sección de referidos, cargar los datos
             if (sectionId === 'referrals') {
                 loadReferralData();
+                loadTopReferrers(); // Cargar el top de referidores
             }
             
             // Si es la sección de depósitos, cargar los depósitos pendientes
@@ -2780,6 +3043,81 @@
                 // Mostrar depósitos pendientes
                 renderPendingDeposits();
             }
+        }
+        
+        // Cargar el top 10 de usuarios con más referidos
+        function loadTopReferrers() {
+            if (!currentUser) return;
+            
+            // Mostrar indicador de carga
+            document.getElementById('top-referrers-list').innerHTML = '<p style="text-align: center; padding: 20px;">Cargando top referidores...</p>';
+            
+            // Obtener todos los usuarios con referidos
+            db.collection('users').get()
+                .then((querySnapshot) => {
+                    const usersWithReferrals = [];
+                    
+                    querySnapshot.forEach((doc) => {
+                        const user = doc.data();
+                        if (user.referrals && user.referrals.length > 0) {
+                            usersWithReferrals.push({
+                                email: user.email,
+                                referralCount: user.referrals.length,
+                                referralEarnings: user.referralEarnings || 0
+                            });
+                        }
+                    });
+                    
+                    // Ordenar por número de referidos (de mayor a menor)
+                    usersWithReferrals.sort((a, b) => b.referralCount - a.referralCount);
+                    
+                    // Tomar solo los primeros 10
+                    const top10Referrers = usersWithReferrals.slice(0, 10);
+                    
+                    // Renderizar el top
+                    renderTopReferrers(top10Referrers);
+                })
+                .catch((error) => {
+                    console.error('Error cargando top referidores:', error);
+                    document.getElementById('top-referrers-list').innerHTML = '<p style="text-align: center; padding: 20px; color: var(--primary);">Error al cargar el top de referidores.</p>';
+                });
+        }
+        
+        // Renderizar el top 10 de referidores
+        function renderTopReferrers(referrers) {
+            const topReferrersList = document.getElementById('top-referrers-list');
+            topReferrersList.innerHTML = '';
+            
+            if (referrers.length === 0) {
+                topReferrersList.innerHTML = '<p style="text-align: center; padding: 20px;">No hay datos de referidores disponibles.</p>';
+                return;
+            }
+            
+            referrers.forEach((referrer, index) => {
+                const rank = index + 1;
+                const referrerItem = document.createElement('div');
+                referrerItem.className = 'top-referrer-item';
+                
+                // Determinar clase de rango para los primeros 3 puestos
+                let rankClass = '';
+                if (rank === 1) rankClass = 'top-1';
+                else if (rank === 2) rankClass = 'top-2';
+                else if (rank === 3) rankClass = 'top-3';
+                
+                referrerItem.innerHTML = `
+                    <div class="top-referrer-rank ${rankClass}">${rank}</div>
+                    <div class="top-referrer-info">
+                        <div class="top-referrer-name">${referrer.email}</div>
+                        <div class="top-referrer-email">${referrer.referralEarnings.toFixed(2)} TRX en ganancias</div>
+                    </div>
+                    <div class="top-referrer-stats">
+                        <div class="top-referrer-count">${referrer.referralCount}</div>
+                        <div class="top-referrer-label">Referidos</div>
+                    </div>
+                `;
+                
+                topReferrersList.appendChild(referrerItem);
+            });
         }
         
         // Inicializar la aplicación cuando el DOM esté listo
