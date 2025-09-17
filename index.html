@@ -18,6 +18,8 @@
             --gray: #888;
             --success: #00cc66;
             --warning: #ff9900;
+            --premium: #ffd700;
+            --premium-dark: #d4af37;
             --sidebar-width: 250px;
             --header-height: 60px;
             --card-bg: #ffffff;
@@ -458,6 +460,18 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
+        .btn-premium {
+            background: linear-gradient(135deg, var(--premium), var(--premium-dark));
+            color: #000;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        .btn-premium:hover {
+            background: linear-gradient(135deg, var(--premium-dark), var(--premium));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.4);
+        }
+        
         .btn-small {
             padding: 6px 10px;
             font-size: var(--font-size-sm);
@@ -500,6 +514,15 @@
             box-shadow: 0 8px 20px rgba(230, 0, 0, 0.2);
         }
         
+        .animal-card.premium {
+            border: 2px solid var(--premium);
+            box-shadow: 0 3px 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .animal-card.premium:hover {
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+        
         /* NUEVO CONTADOR DE ANIMALES MEJORADO */
         .animal-count-badge {
             position: absolute;
@@ -532,6 +555,11 @@
             background: var(--primary);
         }
         
+        .animal-count-badge.premium {
+            background: var(--premium);
+            color: #000;
+        }
+        
         .animal-icon {
             font-size: 2.8rem;
             margin-bottom: 10px;
@@ -549,11 +577,20 @@
             font-size: var(--font-size-md);
         }
         
+        .animal-name.premium {
+            color: var(--premium-dark);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
         .animal-price {
             color: var(--primary);
             font-weight: bold;
             margin-bottom: 10px;
             font-size: var(--font-size-lg);
+        }
+        
+        .animal-price.premium {
+            color: var(--premium-dark);
         }
         
         .animal-stats {
@@ -575,6 +612,11 @@
             padding: 15px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             border: 1px solid var(--border-color);
+        }
+        
+        .animal-item.premium {
+            border: 2px solid var(--premium);
+            box-shadow: 0 3px 15px rgba(255, 215, 0, 0.2);
         }
         
         .animal-item-header {
@@ -599,6 +641,10 @@
             font-size: var(--font-size-md);
         }
         
+        .animal-item-name.premium {
+            color: var(--premium-dark);
+        }
+        
         /* NUEVA BARRA DE PROGRESO MEJORADA */
         .progress-container-animal {
             width: 100%;
@@ -618,6 +664,11 @@
             position: relative;
             transition: width 0.5s ease-in-out;
             box-shadow: 0 0 10px rgba(255, 77, 77, 0.4);
+        }
+        
+        .progress-fill.premium {
+            background: linear-gradient(90deg, var(--premium), var(--premium-dark));
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
         }
         
         .progress-fill::after {
@@ -664,6 +715,10 @@
             font-size: var(--font-size-sm);
             font-weight: bold;
             color: var(--primary);
+        }
+        
+        .progress-percentage.premium {
+            color: var(--premium-dark);
         }
         
         .progress-time {
@@ -1199,6 +1254,9 @@
             font-weight: bold;
             color: var(--primary);
             margin-bottom: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .referral-stat-label {
@@ -1223,6 +1281,7 @@
         
         .referral-item-info {
             flex: 1;
+            font-size: var(--font-size-sm);
         }
         
         .referral-item-name {
@@ -1487,6 +1546,34 @@
                 text-align: right;
             }
         }
+        
+        /* Comisión info */
+        .commission-info {
+            background: rgba(0, 153, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #0099ff;
+            font-size: var(--font-size-sm);
+        }
+        
+        .commission-info ul {
+            margin: 8px 0;
+            padding-left: 20px;
+            font-size: var(--font-size-sm);
+        }
+        
+        .commission-info li {
+            margin-bottom: 5px;
+        }
+        
+        /* Referral code requirement */
+        .referral-required {
+            color: var(--primary);
+            font-size: var(--font-size-sm);
+            margin-top: 5px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -1581,8 +1668,9 @@
                         <input type="password" id="register-confirm" placeholder="Repite tu contraseña">
                     </div>
                     <div class="form-group">
-                        <label for="referral-code-input">Código de referido</label>
-                        <input type="text" id="referral-code-input" placeholder="Código de referido">
+                        <label for="referral-code-input">Código de referido <span style="color: var(--primary);">*</span></label>
+                        <input type="text" id="referral-code-input" placeholder="Código de referido (obligatorio)" required>
+                        <div class="referral-required">* El código de referido es obligatorio para registrarse</div>
                     </div>
                     <button class="btn btn-primary" onclick="register()">Registrarse</button>
                     <div id="register-alert" class="alert hidden"></div>
@@ -1681,7 +1769,7 @@
                 <div class="dashboard-section hidden" id="transactions-section">
                     <h3 class="section-title">Historial de Transacciones</h3>
                     <div id="transactions-list">
-                        <!-- Transacciones se cargarán aquí -->
+                        <!-- Transacciones se cargará aquí -->
                     </div>
                 </div>
                 
@@ -1719,6 +1807,14 @@
                     
                     <div class="withdraw-info">
                         <i class="fas fa-info-circle"></i> El monto mínimo de retiro es de 3 TRX.
+                    </div>
+                    
+                    <div class="commission-info">
+                        <i class="fas fa-info-circle"></i> Información sobre comisiones de retiro:
+                        <ul>
+                            <li>Retiros a <strong>Trust Wallet</strong>: Sin comisión</li>
+                            <li>Retiros a otras billeteras: Se cobrará <strong>1 TRX</strong> de comisión</li>
+                        </ul>
                     </div>
                     
                     <div class="form-group">
@@ -1781,6 +1877,14 @@
             <div class="modal-body">
                 <div class="withdraw-info">
                     <i class="fas fa-info-circle"></i> El monto mínimo de retiro es de 3 TRX.
+                </div>
+                
+                <div class="commission-info">
+                    <i class="fas fa-info-circle"></i> Información sobre comisiones de retiro:
+                    <ul>
+                        <li>Retiros a <strong>Trust Wallet</strong>: Sin comisión</li>
+                        <li>Retiros a otras billeteras: Se cobrará <strong>1 TRX</strong> de comisión</li>
+                    </ul>
                 </div>
                 
                 <div class="form-group">
@@ -2135,6 +2239,12 @@
                 return;
             }
             
+            // Verificar si el código de referido está presente (ahora obligatorio)
+            if (!referralCode) {
+                showAlert('register-alert', 'El código de referido es obligatorio para registrarse', 'error');
+                return;
+            }
+            
             // Verificar si la IP ya está registrada
             const ipAlreadyRegistered = await checkIPRegistration(userIP);
             if (ipAlreadyRegistered) {
@@ -2162,8 +2272,7 @@
                         referrals: [],
                         ipAddress: userIP, // Guardar la dirección IP
                         createdAt: new Date(),
-                        // Añadir un conejo gratis para usuarios nuevos
-                        hasReceivedWelcomeBonus: false
+                        // Eliminado: hasReceivedWelcomeBonus ya que no se dará conejo gratis
                     });
                 })
                 .then(() => {
@@ -2172,57 +2281,11 @@
                         processReferral(referralCode);
                     }
                     
-                    // Dar conejo gratis al usuario nuevo
-                    giveWelcomeBonus();
-                    
                     showAlert('register-alert', 'Cuenta creada correctamente', 'success');
                     showToast('Cuenta creada correctamente. ¡Bienvenido/a!', 'success');
                 })
                 .catch((error) => {
                     showAlert('register-alert', error.message, 'error');
-                });
-        }
-        
-        // Dar conejo gratis a usuarios nuevos
-        function giveWelcomeBonus() {
-            if (!currentUser) return;
-            
-            // Conejo gratis para nuevos usuarios
-            const welcomeAnimal = {
-                type: 'rabbit',
-                purchaseDate: new Date(),
-                claimedProfits: 0,
-                isWelcomeBonus: true
-            };
-            
-            // Actualizar base de datos
-            db.collection('users').doc(currentUser.uid).update({
-                animals: firebase.firestore.FieldValue.arrayUnion(welcomeAnimal),
-                hasReceivedWelcomeBonus: true
-            }).then(() => {
-                showToast('¡Felicidades! Has recibido un conejo gratis como regalo de bienvenida.', 'success');
-            });
-        }
-        
-        // Enviar correo de recuperación de contraseña
-        function sendPasswordReset() {
-            const email = document.getElementById('recovery-email').value;
-            
-            if (!email) {
-                showAlert('recovery-alert', 'Por favor ingresa tu correo electrónico', 'error');
-                return;
-            }
-            
-            auth.sendPasswordResetEmail(email)
-                .then(() => {
-                    showAlert('recovery-alert', 'Se ha enviado un enlace de recuperación a tu correo electrónico', 'success');
-                    setTimeout(() => {
-                        closeModal('password-recovery-modal');
-                        document.getElementById('recovery-email').value = '';
-                    }, 3000);
-                })
-                .catch((error) => {
-                    showAlert('recovery-alert', error.message, 'error');
                 });
         }
         
@@ -2423,7 +2486,7 @@
         
         // Cargar animales disponibles
         function loadAnimals() {
-            // Datos de ejemplo (incluyendo los 2 nuevos animales)
+            // Datos de ejemplo (incluyendo el nuevo animal premium)
             animals = [
                 { id: 'rabbit', name: 'Conejo', price: 3, dailyProfit: 0.15, duration: 30, icon: '🐰' },
                 { id: 'duck', name: 'Pato', price: 4, dailyProfit: 0.2, duration: 30, icon: '🦆' },
@@ -2432,7 +2495,8 @@
                 { id: 'pig', name: 'Cerdo', price: 80, dailyProfit: 4, duration: 30, icon: '🐖' },
                 { id: 'sheep', name: 'Oveja', price: 60, dailyProfit: 3, duration: 30, icon: '🐑' },
                 { id: 'goat', name: 'Cabra', price: 50, dailyProfit: 2.5, duration: 30, icon: '🐐' },
-                { id: 'horse', name: 'Caballo', price: 100, dailyProfit: 5, duration: 30, icon: '🐎' }
+                { id: 'horse', name: 'Caballo', price: 100, dailyProfit: 5, duration: 30, icon: '🐎' },
+                { id: 'dragon', name: 'Dragón Premium', price: 200, dailyProfit: 30, duration: 30, icon: '🐲', premium: true } // 15% de 200 = 30 TRX/día
             ];
             
             renderAvailableAnimals();
@@ -2446,6 +2510,7 @@
             animals.forEach(animal => {
                 const animalCount = countUserAnimalsByType(animal.id);
                 const canBuyMore = animalCount < MAX_ANIMALS_PER_TYPE;
+                const isPremium = animal.premium || false;
                 
                 // Determinar clase CSS según la cantidad de animales
                 let badgeClass = 'low';
@@ -2455,8 +2520,12 @@
                     badgeClass = 'near-limit';
                 }
                 
+                if (isPremium) {
+                    badgeClass = 'premium';
+                }
+                
                 const animalCard = document.createElement('div');
-                animalCard.className = 'animal-card';
+                animalCard.className = `animal-card ${isPremium ? 'premium' : ''}`;
                 
                 // Mostrar contador si el usuario tiene animales de este tipo
                 let countBadge = '';
@@ -2464,14 +2533,17 @@
                     countBadge = `<div class="animal-count-badge ${badgeClass}">${animalCount}/${MAX_ANIMALS_PER_TYPE}</div>`;
                 }
                 
+                // Calcular porcentaje de ganancia
+                const profitPercentage = ((animal.dailyProfit / animal.price) * 100).toFixed(1);
+                
                 animalCard.innerHTML = `
                     ${countBadge}
                     <div class="animal-icon">${animal.icon}</div>
-                    <div class="animal-name">${animal.name}</div>
-                    <div class="animal-price">${animal.price} TRX</div>
-                    <div class="animal-stats">Produce: ${animal.dailyProfit} TRX/día (5%)</div>
+                    <div class="animal-name ${isPremium ? 'premium' : ''}">${animal.name}</div>
+                    <div class="animal-price ${isPremium ? 'premium' : ''}">${animal.price} TRX</div>
+                    <div class="animal-stats">Produce: ${animal.dailyProfit} TRX/día (${profitPercentage}%)</div>
                     <div class="animal-stats">Duración: ${animal.duration} días</div>
-                    <button class="btn ${canBuyMore ? 'btn-primary' : 'btn-disabled'}" 
+                    <button class="btn ${canBuyMore ? (isPremium ? 'btn-premium' : 'btn-primary') : 'btn-disabled'}" 
                             onclick="${canBuyMore ? `buyAnimal('${animal.id}')` : ''}" 
                             ${!canBuyMore ? 'disabled' : ''}>
                         ${canBuyMore ? 'Comprar' : 'Límite alcanzado'}
@@ -2493,6 +2565,7 @@
             
             userData.animals.forEach((animal, index) => {
                 const animalData = animals.find(a => a.id === animal.type);
+                const isPremium = animalData.premium || false;
                 const purchaseDate = animal.purchaseDate.toDate();
                 const elapsedMs = Date.now() - purchaseDate;
                 const totalDurationMs = animalData.duration * 24 * 60 * 60 * 1000;
@@ -2506,23 +2579,20 @@
                 const minutes = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
                 
                 const animalItem = document.createElement('div');
-                animalItem.className = 'animal-item';
+                animalItem.className = `animal-item ${isPremium ? 'premium' : ''}`;
                 animalItem.id = `animal-${index}`;
-                
-                // Mostrar etiqueta especial para el conejo de regalo
-                const welcomeBadge = animal.isWelcomeBonus ? '<span style="color: var(--success); font-weight: bold;">(Regalo de bienvenida)</span>' : '';
                 
                 animalItem.innerHTML = `
                     <div class="animal-item-header">
                         <div class="animal-item-icon">${animalData.icon}</div>
                         <div class="animal-item-info">
-                            <div class="animal-item-name">${animalData.name} ${welcomeBadge}</div>
+                            <div class="animal-item-name ${isPremium ? 'premium' : ''}">${animalData.name}</div>
                             <div class="progress-info">
-                                <span class="progress-percentage">${progress.toFixed(1)}%</span>
+                                <span class="progress-percentage ${isPremium ? 'premium' : ''}">${progress.toFixed(1)}%</span>
                                 <span class="progress-time">${days}d ${hours}h ${minutes}m</span>
                             </div>
                             <div class="progress-container-animal">
-                                <div class="progress-fill" style="width: ${progress}%"></div>
+                                <div class="progress-fill ${isPremium ? 'premium' : ''}" style="width: ${progress}%"></div>
                             </div>
                             <div class="animal-item-time">
                                 <span>Inicio: ${purchaseDate.toLocaleDateString()}</span>
