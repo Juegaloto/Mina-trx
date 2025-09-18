@@ -20,9 +20,6 @@
             --warning: #ff9900;
             --premium: #ffd700;
             --premium-dark: #d4af37;
-            --lottery: #9c27b0;
-            --lottery-dark: #7b1fa2;
-            --lottery-light: #ba68c8;
             --sidebar-width: 250px;
             --header-height: 60px;
             --card-bg: #ffffff;
@@ -473,18 +470,6 @@
             background: linear-gradient(135deg, var(--premium-dark), var(--premium));
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(255, 215, 0, 0.4);
-        }
-        
-        .btn-lottery {
-            background: linear-gradient(135deg, var(--lottery), var(--lottery-dark));
-            color: var(--secondary);
-            box-shadow: 0 4px 10px rgba(156, 39, 176, 0.3);
-        }
-        
-        .btn-lottery:hover {
-            background: linear-gradient(135deg, var(--lottery-dark), var(--lottery));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(156, 39, 176, 0.4);
         }
         
         .btn-small {
@@ -1365,7 +1350,6 @@
         
         .top-referrers-title i {
             color: var(--primary);
-            font-size: 1.2rem;
         }
         
         .top-referrers-list {
@@ -1590,202 +1574,6 @@
             margin-top: 5px;
             font-weight: bold;
         }
-        
-        /* LOTERÍA - NUEVOS ESTILOS */
-        .lottery-section {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border: 1px solid var(--border-color);
-        }
-        
-        .lottery-info {
-            background: rgba(156, 39, 176, 0.1);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--lottery);
-            font-size: var(--font-size-md);
-        }
-        
-        .lottery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .lottery-animal {
-            background: var(--secondary-dark);
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            transition: all 0.3s;
-            border: 2px solid var(--border-color);
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .lottery-animal:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(156, 39, 176, 0.3);
-        }
-        
-        .lottery-animal.selected {
-            border-color: var(--lottery);
-            background: rgba(156, 39, 176, 0.1);
-        }
-        
-        .lottery-animal.sold {
-            border-color: var(--gray);
-            background: rgba(136, 136, 136, 0.1);
-            cursor: not-allowed;
-        }
-        
-        .lottery-animal.winner {
-            border-color: var(--success);
-            background: rgba(0, 204, 102, 0.1);
-            animation: pulse 2s infinite;
-        }
-        
-        .lottery-animal-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        
-        .lottery-animal-number {
-            font-weight: bold;
-            color: var(--lottery);
-            margin-bottom: 5px;
-            font-size: var(--font-size-md);
-        }
-        
-        .lottery-animal-price {
-            color: var(--primary);
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: var(--font-size-sm);
-        }
-        
-        .lottery-animal-status {
-            font-size: var(--font-size-sm);
-            color: var(--gray);
-        }
-        
-        .lottery-animal-owner {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: var(--lottery);
-            color: white;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        
-        .lottery-timer {
-            background: var(--secondary-dark);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .timer-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--lottery);
-            font-size: var(--font-size-md);
-        }
-        
-        .timer-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--lottery-dark);
-            margin-bottom: 10px;
-        }
-        
-        .lottery-winners {
-            margin-top: 30px;
-        }
-        
-        .winners-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .winner-item {
-            background: var(--secondary-dark);
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 4px solid var(--success);
-        }
-        
-        .winner-animal {
-            font-weight: bold;
-            color: var(--text-dark);
-            font-size: var(--font-size-md);
-        }
-        
-        .winner-date {
-            font-size: var(--font-size-sm);
-            color: var(--gray);
-        }
-        
-        .winner-amount {
-            font-weight: bold;
-            color: var(--success);
-            font-size: var(--font-size-md);
-        }
-        
-        .user-tickets {
-            margin-top: 30px;
-        }
-        
-        .tickets-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .ticket-item {
-            background: var(--secondary-dark);
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 4px solid var(--lottery);
-        }
-        
-        .ticket-animal {
-            font-weight: bold;
-            color: var(--text-dark);
-            font-size: var(--font-size-md);
-        }
-        
-        .ticket-date {
-            font-size: var(--font-size-sm);
-            color: var(--gray);
-        }
-        
-        .ticket-status {
-            font-weight: bold;
-            color: var(--lottery);
-            font-size: var(--font-size-sm);
-        }
     </style>
 </head>
 <body>
@@ -1824,7 +1612,6 @@
                 <li class="active" data-section="dashboard"><i class="fas fa-home"></i> Dashboard</li>
                 <li data-section="animals"><i class="fas fa-kiwi-bird"></i> Mis Animales</li>
                 <li data-section="buy"><i class="fas fa-shopping-cart"></i> Comprar Animales</li>
-                <li data-section="lottery"><i class="fas fa-ticket-alt"></i> Lotería</li>
                 <li data-section="referrals"><i class="fas fa-users"></i> Sistema de Referidos</li>
                 <li data-section="transactions"><i class="fas fa-exchange-alt"></i> Transacciones</li>
                 <li data-section="deposit"><i class="fas fa-dollar-sign"></i> Depositar TRX</li>
@@ -1916,41 +1703,6 @@
                     <h3 class="section-title">Comprar Animales</h3>
                     <div class="animals-grid" id="animals-grid">
                         <!-- Animales se cargarán aquí -->
-                    </div>
-                </div>
-                
-                <!-- Sección de Lotería -->
-                <div class="dashboard-section hidden" id="lottery-section">
-                    <h3 class="section-title">Lotería de Animales</h3>
-                    
-                    <div class="lottery-info">
-                        <i class="fas fa-info-circle"></i> Participa en nuestra lotería diaria. Cada animal cuesta 0.5 TRX y el ganador recibe 3 TRX. 
-                        La rifa se realiza cada hora. ¡Compra tus boletos y participa!
-                    </div>
-                    
-                    <div class="lottery-timer">
-                        <div class="timer-title">Próxima rifa en:</div>
-                        <div class="timer-value" id="lottery-timer">01:00:00</div>
-                        <div class="timer-title">Animal ganador anterior: <span id="last-winner">-</span></div>
-                    </div>
-                    
-                    <h4>Selecciona un animal para participar</h4>
-                    <div class="lottery-grid" id="lottery-grid">
-                        <!-- Animales de lotería se cargarán aquí -->
-                    </div>
-                    
-                    <div class="user-tickets">
-                        <h4>Mis boletos para esta ronda</h4>
-                        <div class="tickets-list" id="user-tickets-list">
-                            <!-- Boletos del usuario se cargarán aquí -->
-                        </div>
-                    </div>
-                    
-                    <div class="lottery-winners">
-                        <h4>Últimos ganadores</h4>
-                        <div class="winners-list" id="winners-list">
-                            <!-- Lista de ganadores se cargará aquí -->
-                        </div>
                     </div>
                 </div>
                 
@@ -2251,13 +2003,6 @@
         const MIN_WITHDRAWAL = 3; // Mínimo de retiro: 3 TRX
         const MAX_ANIMALS_PER_TYPE = 5; // Límite de 5 animales por tipo
         
-        // Variables para la lotería
-        let lotteryAnimals = [];
-        let lotteryWinners = [];
-        let lotteryTimer = null;
-        let nextDrawTime = null;
-        let userTickets = [];
-        
         // Obtener la IP del usuario
         async function getUserIP() {
             try {
@@ -2318,9 +2063,6 @@
             
             // Cargar animales disponibles
             loadAnimals();
-            
-            // Cargar datos de la lotería
-            loadLotteryData();
             
             // Ajustar el diseño para móviles
             adjustForMobile();
@@ -2403,11 +2145,6 @@
             // Si es la sección de depósitos, cargar los depósitos pendientes
             if (sectionId === 'deposit') {
                 renderPendingDeposits();
-            }
-            
-            // Si es la sección de lotería, cargar los datos
-            if (sectionId === 'lottery') {
-                loadLotteryData();
             }
         }
         
@@ -2535,8 +2272,7 @@
                         referrals: [],
                         ipAddress: userIP, // Guardar la dirección IP
                         createdAt: new Date(),
-                        lotteryTickets: [],
-                        lotteryWinnings: 0.00
+                        // Eliminado: hasReceivedWelcomeBonus ya que no se dará conejo gratis
                     });
                 })
                 .then(() => {
@@ -2909,8 +2645,6 @@
                 if (transaction.type === 'purchase') transactionIcon = '🐶';
                 if (transaction.type === 'profit_claim') transactionIcon = '💰';
                 if (transaction.type === 'referral_bonus') transactionIcon = '👥';
-                if (transaction.type === 'lottery_ticket') transactionIcon = '🎫';
-                if (transaction.type === 'lottery_win') transactionIcon = '🏆';
                 
                 transactionItem.innerHTML = `
                     <div class="animal-item-icon">${transactionIcon}</div>
@@ -3454,380 +3188,6 @@
                 
                 topReferrersList.appendChild(referrerItem);
             });
-        }
-        
-        // Cargar datos de la lotería
-        function loadLotteryData() {
-            if (!currentUser) return;
-            
-            // Cargar animales de lotería
-            loadLotteryAnimals();
-            
-            // Cargar ganadores anteriores
-            loadLotteryWinners();
-            
-            // Cargar boletos del usuario
-            loadUserTickets();
-            
-            // Iniciar temporizador
-            startLotteryTimer();
-        }
-        
-        // Cargar animales de lotería
-        function loadLotteryAnimals() {
-            // Crear 50 animales para la lotería
-            if (lotteryAnimals.length === 0) {
-                const animalEmojis = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🐔', '🐧', '🐦', '🐤', '🦄', '🦇', '🐺', '🐗', '🐴', '🦋', '🐙', '🐢', '🐬', '🦑', '🐊', '🐉', '🐿️', '🦔', '🦉', '🦅', '🦆', '🦢', '🦜', '🦚', '🦩', '🦝', '🦨', '🦦', '🦥', '🐁', '🐇', '🐎', '🐖', '🐑', '🐄'];
-                
-                for (let i = 1; i <= 50; i++) {
-                    lotteryAnimals.push({
-                        id: i,
-                        emoji: animalEmojis[i % animalEmojis.length],
-                        price: 0.5,
-                        prize: 3,
-                        sold: false,
-                        owner: null,
-                        purchaseDate: null
-                    });
-                }
-            }
-            
-            renderLotteryAnimals();
-        }
-        
-        // Renderizar animales de lotería
-        function renderLotteryAnimals() {
-            const lotteryGrid = document.getElementById('lottery-grid');
-            lotteryGrid.innerHTML = '';
-            
-            lotteryAnimals.forEach(animal => {
-                const animalElement = document.createElement('div');
-                animalElement.className = `lottery-animal ${animal.sold ? 'sold' : ''} ${animal.owner === currentUser.uid ? 'selected' : ''}`;
-                
-                let statusText = 'Disponible';
-                if (animal.sold) {
-                    statusText = animal.owner === currentUser.uid ? 'Tu boleto' : 'Vendido';
-                }
-                
-                animalElement.innerHTML = `
-                    <div class="lottery-animal-icon">${animal.emoji}</div>
-                    <div class="lottery-animal-number">#${animal.id}</div>
-                    <div class="lottery-animal-price">${animal.price} TRX</div>
-                    <div class="lottery-animal-status">${statusText}</div>
-                    ${animal.owner === currentUser.uid ? '<div class="lottery-animal-owner"><i class="fas fa-user"></i></div>' : ''}
-                `;
-                
-                if (!animal.sold) {
-                    animalElement.onclick = () => buyLotteryTicket(animal.id);
-                }
-                
-                lotteryGrid.appendChild(animalElement);
-            });
-        }
-        
-        // Cargar ganadores de lotería
-        function loadLotteryWinners() {
-            // Obtener ganadores de la base de datos
-            db.collection('lotteryWinners')
-                .orderBy('date', 'desc')
-                .limit(10)
-                .get()
-                .then((querySnapshot) => {
-                    lotteryWinners = [];
-                    querySnapshot.forEach((doc) => {
-                        lotteryWinners.push(doc.data());
-                    });
-                    renderLotteryWinners();
-                })
-                .catch((error) => {
-                    console.error('Error cargando ganadores de lotería:', error);
-                });
-        }
-        
-        // Renderizar ganadores de lotería
-        function renderLotteryWinners() {
-            const winnersList = document.getElementById('winners-list');
-            winnersList.innerHTML = '';
-            
-            if (lotteryWinners.length === 0) {
-                winnersList.innerHTML = '<p>No hay ganadores registrados todavía.</p>';
-                return;
-            }
-            
-            // Mostrar el último ganador
-            if (lotteryWinners.length > 0) {
-                const lastWinner = lotteryWinners[0];
-                document.getElementById('last-winner').textContent = `Animal #${lastWinner.animalId} (${lastWinner.animalEmoji})`;
-            }
-            
-            lotteryWinners.forEach(winner => {
-                const winnerDate = winner.date.toDate();
-                const winnerItem = document.createElement('div');
-                winnerItem.className = 'winner-item';
-                
-                winnerItem.innerHTML = `
-                    <div class="winner-info">
-                        <div class="winner-animal">Animal #${winner.animalId} ${winner.animalEmoji}</div>
-                        <div class="winner-date">${winnerDate.toLocaleDateString()} ${winnerDate.toLocaleTimeString()}</div>
-                    </div>
-                    <div class="winner-amount">${winner.prize} TRX</div>
-                `;
-                
-                winnersList.appendChild(winnerItem);
-            });
-        }
-        
-        // Cargar boletos del usuario
-        function loadUserTickets() {
-            if (!userData.lotteryTickets || userData.lotteryTickets.length === 0) {
-                document.getElementById('user-tickets-list').innerHTML = '<p>No tienes boletos para esta ronda.</p>';
-                return;
-            }
-            
-            userTickets = userData.lotteryTickets.filter(ticket => {
-                // Solo mostrar boletos de la ronda actual (no reclamados)
-                return !ticket.claimed;
-            });
-            
-            renderUserTickets();
-        }
-        
-        // Renderizar boletos del usuario
-        function renderUserTickets() {
-            const ticketsList = document.getElementById('user-tickets-list');
-            ticketsList.innerHTML = '';
-            
-            if (userTickets.length === 0) {
-                ticketsList.innerHTML = '<p>No tienes boletos para esta ronda.</p>';
-                return;
-            }
-            
-            userTickets.forEach(ticket => {
-                const ticketDate = ticket.purchaseDate.toDate();
-                const ticketItem = document.createElement('div');
-                ticketItem.className = 'ticket-item';
-                
-                ticketItem.innerHTML = `
-                    <div class="ticket-info">
-                        <div class="ticket-animal">Animal #${ticket.animalId} ${ticket.animalEmoji}</div>
-                        <div class="ticket-date">Comprado: ${ticketDate.toLocaleDateString()} ${ticketDate.toLocaleTimeString()}</div>
-                    </div>
-                    <div class="ticket-status">Activo</div>
-                `;
-                
-                ticketsList.appendChild(ticketItem);
-            });
-        }
-        
-        // Comprar boleto de lotería
-        function buyLotteryTicket(animalId) {
-            if (!currentUser) return;
-            
-            const animal = lotteryAnimals.find(a => a.id === animalId);
-            
-            if (!animal) {
-                showToast('Animal no encontrado', 'error');
-                return;
-            }
-            
-            if (animal.sold) {
-                showToast('Este animal ya ha sido comprado', 'error');
-                return;
-            }
-            
-            if (userData.balance < animal.price) {
-                showToast('No tienes suficiente saldo para comprar este boleto', 'error');
-                return;
-            }
-            
-            // Verificar si el usuario ya tiene un boleto para este animal
-            const hasTicket = userTickets.some(ticket => ticket.animalId === animalId);
-            if (hasTicket) {
-                showToast('Ya tienes un boleto para este animal', 'error');
-                return;
-            }
-            
-            const newBalance = userData.balance - animal.price;
-            
-            // Crear boleto
-            const ticket = {
-                animalId: animalId,
-                animalEmoji: animal.emoji,
-                purchaseDate: new Date(),
-                price: animal.price,
-                claimed: false
-            };
-            
-            const updatedTickets = [...(userData.lotteryTickets || []), ticket];
-            
-            // Registrar transacción
-            const transaction = {
-                type: 'lottery_ticket',
-                amount: animal.price,
-                date: new Date(),
-                details: `Boleto de lotería - Animal #${animalId} ${animal.emoji}`
-            };
-            
-            const updatedTransactions = [...(userData.transactions || []), transaction];
-            
-            // Actualizar base de datos
-            db.collection('users').doc(currentUser.uid).update({
-                balance: newBalance,
-                lotteryTickets: updatedTickets,
-                transactions: updatedTransactions
-            }).then(() => {
-                // Actualizar animal como vendido
-                animal.sold = true;
-                animal.owner = currentUser.uid;
-                animal.purchaseDate = new Date();
-                
-                showToast(`Boleto comprado para el animal #${animalId}`, 'success');
-                renderLotteryAnimals();
-                loadUserTickets();
-            });
-        }
-        
-        // Iniciar temporizador de lotería
-        function startLotteryTimer() {
-            // Calcular el próximo sorteo (cada hora en punto)
-            const now = new Date();
-            const nextDraw = new Date();
-            nextDraw.setHours(now.getHours() + 1);
-            nextDraw.setMinutes(0);
-            nextDraw.setSeconds(0);
-            nextDraw.setMilliseconds(0);
-            
-            nextDrawTime = nextDraw;
-            
-            // Actualizar temporizador cada segundo
-            if (lotteryTimer) {
-                clearInterval(lotteryTimer);
-            }
-            
-            lotteryTimer = setInterval(updateLotteryTimer, 1000);
-            updateLotteryTimer();
-        }
-        
-        // Actualizar temporizador de lotería
-        function updateLotteryTimer() {
-            if (!nextDrawTime) return;
-            
-            const now = new Date();
-            const diff = nextDrawTime - now;
-            
-            if (diff <= 0) {
-                // Realizar sorteo
-                drawLotteryWinner();
-                // Reiniciar para la próxima hora
-                nextDrawTime.setHours(nextDrawTime.getHours() + 1);
-                return;
-            }
-            
-            // Formatear el tiempo restante
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            document.getElementById('lottery-timer').textContent = 
-                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-        
-        // Realizar sorteo de lotería
-        function drawLotteryWinner() {
-            // Obtener todos los boletos vendidos
-            const soldTickets = lotteryAnimals.filter(animal => animal.sold);
-            
-            if (soldTickets.length === 0) {
-                // No hay boletos vendidos, no hay sorteo
-                showToast('No se realizó el sorteo - No hay boletos vendidos', 'info');
-                return;
-            }
-            
-            // Seleccionar un ganador aleatorio
-            const randomIndex = Math.floor(Math.random() * soldTickets.length);
-            const winnerAnimal = soldTickets[randomIndex];
-            
-            // Registrar ganador
-            const winnerData = {
-                animalId: winnerAnimal.id,
-                animalEmoji: winnerAnimal.emoji,
-                prize: winnerAnimal.prize,
-                date: new Date(),
-                winnerId: winnerAnimal.owner
-            };
-            
-            db.collection('lotteryWinners').add(winnerData)
-                .then(() => {
-                    // Acreditar premio al ganador
-                    db.collection('users').doc(winnerAnimal.owner).get()
-                        .then((doc) => {
-                            if (doc.exists) {
-                                const winnerUser = doc.data();
-                                const newBalance = winnerUser.balance + winnerAnimal.prize;
-                                
-                                // Registrar transacción
-                                const transaction = {
-                                    type: 'lottery_win',
-                                    amount: winnerAnimal.prize,
-                                    date: new Date(),
-                                    details: `Ganador de lotería - Animal #${winnerAnimal.id} ${winnerAnimal.emoji}`
-                                };
-                                
-                                const updatedTransactions = [...(winnerUser.transactions || []), transaction];
-                                
-                                // Actualizar balance y transacciones
-                                db.collection('users').doc(winnerAnimal.owner).update({
-                                    balance: newBalance,
-                                    transactions: updatedTransactions,
-                                    lotteryWinnings: (winnerUser.lotteryWinnings || 0) + winnerAnimal.prize
-                                });
-                                
-                                // Marcar boleto como reclamado
-                                const updatedTickets = winnerUser.lotteryTickets.map(ticket => {
-                                    if (ticket.animalId === winnerAnimal.id && !ticket.claimed) {
-                                        return {
-                                            ...ticket,
-                                            claimed: true,
-                                            winDate: new Date()
-                                        };
-                                    }
-                                    return ticket;
-                                });
-                                
-                                db.collection('users').doc(winnerAnimal.owner).update({
-                                    lotteryTickets: updatedTickets
-                                });
-                                
-                                showToast(`¡Sorteo realizado! Ganador: Animal #${winnerAnimal.id}`, 'success');
-                                
-                                // Reiniciar lotería para la próxima ronda
-                                resetLottery();
-                                loadLotteryWinners();
-                            }
-                        })
-                        .catch((error) => {
-                            console.error('Error al encontrar al ganador:', error);
-                        });
-                })
-                .catch((error) => {
-                    console.error('Error al registrar ganador:', error);
-                });
-        }
-        
-        // Reiniciar lotería para nueva ronda
-        function resetLottery() {
-            // Reiniciar todos los animales
-            lotteryAnimals.forEach(animal => {
-                animal.sold = false;
-                animal.owner = null;
-                animal.purchaseDate = null;
-            });
-            
-            renderLotteryAnimals();
-            
-            // Limpiar boletos del usuario para la nueva ronda
-            userTickets = [];
-            document.getElementById('user-tickets-list').innerHTML = '<p>No tienes boletos para esta ronda.</p>';
         }
         
         // Inicializar la aplicación cuando el DOM esté listo
