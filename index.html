@@ -3,691 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRX Investment - Gana TRX fácil</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Supabase Comentarios - Test Navegador</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        :root {
-            --primary: #FF6B35;
-            --primary-dark: #E55A2B;
-            --secondary: #2D3748;
-            --accent: #00C9A7;
-            --light: #F7FAFC;
-            --dark: #1A202C;
-            --gradient: linear-gradient(135deg, #FF6B35 0%, #FF8E35 100%);
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Animaciones y efectos */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: var(--transition);
-        }
-        
-        .fade-in-left {
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: var(--transition);
-        }
-        
-        .fade-in-right {
-            opacity: 0;
-            transform: translateX(50px);
-            transition: var(--transition);
-        }
-        
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: var(--transition);
-        }
-        
-        .animate {
-            opacity: 1;
-            transform: translate(0, 0);
-        }
-        
-        /* Header */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            font-weight: 800;
-            font-size: 24px;
-            color: var(--primary);
-        }
-        
-        .logo i {
-            margin-right: 10px;
-            font-size: 28px;
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.9) 0%, rgba(255, 142, 53, 0.9) 100%), url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 180px 0 100px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-            opacity: 0.3;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        
-        .hero p {
-            font-size: 1.3rem;
-            max-width: 700px;
-            margin: 0 auto 40px;
-            font-weight: 400;
-            opacity: 0.9;
-        }
-        
-        .bonus-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.3rem;
-            margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Botones */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px 35px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            text-align: center;
-            gap: 10px;
-        }
-        
-        .btn-primary {
-            background: var(--gradient);
-            color: white;
-            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.4);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(255, 107, 53, 0.6);
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-5px);
-        }
-        
-        .btn-large {
-            padding: 18px 45px;
-            font-size: 1.2rem;
-        }
-        
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        /* Features Section */
-        .features {
-            padding: 120px 0;
-            background: white;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-        
-        .section-title h2 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: var(--secondary);
-            margin-bottom: 20px;
-        }
-        
-        .section-title p {
-            color: #718096;
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 1.2rem;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-        }
-        
-        .feature-card {
+        .container { max-width: 1000px; margin: 0 auto; }
+        .card {
             background: white;
             border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-        
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        h1 { color: white; margin-bottom: 20px; text-align: center; }
+        h2 { color: #333; margin-bottom: 15px; }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: translateY(-2px); opacity: 0.9; }
+        input, textarea {
             width: 100%;
-            height: 5px;
-            background: var(--gradient);
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            margin: 10px 0;
         }
-        
-        .feature-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        .status {
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-weight: bold;
         }
-        
-        .feature-icon {
-            font-size: 50px;
-            color: var(--primary);
-            margin-bottom: 25px;
-            display: inline-block;
-            padding: 20px;
-            border-radius: 15px;
-            background: rgba(255, 107, 53, 0.1);
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .comment {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
         }
-        
-        .feature-card h3 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--secondary);
+        .log {
+            background: #1e1e2e;
+            color: #a6e3a1;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
         }
-        
-        .feature-card p {
-            color: #718096;
-            font-size: 1.1rem;
-        }
-        
-        /* Stats Section */
-        .stats {
-            padding: 100px 0;
-            background: var(--gradient);
-            color: white;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            text-align: center;
-        }
-        
-        .stat-item h3 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-        
-        .stat-item p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        /* CTA Section */
-        .cta {
-            padding: 120px 0;
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-        }
-        
-        .cta h2 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 25px;
-            position: relative;
-        }
-        
-        .cta p {
-            font-size: 1.3rem;
-            max-width: 700px;
-            margin: 0 auto 50px;
-            opacity: 0.9;
-            position: relative;
-        }
-        
-        .btn-light {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .btn-light:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--secondary);
-            color: white;
-            padding: 80px 0 30px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 50px;
-            margin-bottom: 50px;
-        }
-        
-        .footer-column h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: var(--primary);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 15px;
-        }
-        
-        .footer-links a {
-            color: #CBD5E0;
-            text-decoration: none;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-            transform: translateX(5px);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid #4A5568;
-            color: #A0AEC0;
-            font-size: 0.95rem;
-        }
-        
-        /* Responsive */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
-            .section-title h2 {
-                font-size: 2.4rem;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .hero {
-                padding: 150px 0 80px;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .section-title h2 {
-                font-size: 2rem;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .features, .stats, .cta {
-                padding: 80px 0;
-            }
-        }
-        
-        /* Efectos de partículas */
-        @keyframes float {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) translateX(50px);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes float2 {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-80px) translateX(-30px);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes float3 {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-120px) translateX(20px);
-                opacity: 0;
-            }
-        }
+        .button-group { display: flex; gap: 10px; flex-wrap: wrap; margin: 15px 0; }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo fade-in-left">
-                    <i class="fas fa-coins"></i>
-                    TRX Investment
-                </div>
-                <div class="fade-in-right">
-                    <a href="https://t.me/TRXInvestment12_bot?start=K461WZZ1" class="btn btn-primary">Comenzar Ahora</a>
-                </div>
+    <div class="container">
+        <h1>🚀 Supabase - Sistema de Comentarios</h1>
+        
+        <div class="card">
+            <h2>🔌 Estado de Conexión</h2>
+            <div id="status" class="status">Conectando a Supabase...</div>
+            <div class="button-group">
+                <button onclick="testConnection()">🔄 Probar Conexión</button>
+                <button onclick="createTable()">📦 Crear Tabla (SQL)</button>
+                <button onclick="resetTable()">🔄 Resetear Tabla</button>
             </div>
         </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="bonus-badge fade-in-up">
-                <i class="fas fa-gift"></i> Bono de bienvenida: 10 TRX GRATIS
-            </div>
-            <h1 class="fade-in-up">Gana TRX Fácil con Nuestro Bot</h1>
-            <p class="fade-in-up">Invierte en TRX y obtén ganancias diarias desde el 3% al 5%. Depósitos desde 10 TRX y retiros en menos de 24 horas.</p>
-            <div class="hero-buttons">
-                <a href="https://t.me/TRXInvestment12_bot?start=K461WZZ1" class="btn btn-primary btn-large fade-in-left">
-                    <i class="fab fa-telegram"></i> Empezar Aquí
-                </a>
-                <a href="https://t.me/+sOSTR7_4AoYwMjY5" class="btn btn-secondary btn-large fade-in-right">
-                    <i class="fab fa-telegram"></i> Canal Oficial
-                </a>
-            </div>
+        <div class="card">
+            <h2>💬 Escribir Comentario</h2>
+            <input type="text" id="commentInput" placeholder="Escribe tu comentario aquí..." autocomplete="off">
+            <button onclick="submitComment()" style="width: 100%;">✉️ Publicar Comentario</button>
+            <div id="feedback" style="margin-top: 10px; font-size: 14px;"></div>
         </div>
-    </section>
 
-    <!-- Features Section -->
-    <section class="features">
-        <div class="container">
-            <div class="section-title">
-                <h2 class="fade-in-up">¿Por Qué Elegir TRX Investment?</h2>
-                <p class="fade-in-up">Descubre las ventajas de invertir con nuestro bot automatizado</p>
+        <div class="card">
+            <h2>📝 Comentarios Recientes</h2>
+            <div class="button-group">
+                <button onclick="loadComments()">🔄 Actualizar Comentarios</button>
+                <button onclick="deleteAllComments()">🗑️ Borrar Todos</button>
             </div>
-            <div class="features-grid">
-                <div class="feature-card fade-in-left">
-                    <div class="feature-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3>Inicio Rápido</h3>
-                    <p>Comienza a invertir en menos de 5 minutos. Solo necesitas tener una billetera TRX y seguir nuestros sencillos pasos.</p>
-                </div>
-                <div class="feature-card fade-in-up">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Ganancias Diarias</h3>
-                    <p>Obtén entre 3% y 5% de ganancias diarias sobre tu inversión. Tus ganancias se acumulan automáticamente.</p>
-                </div>
-                <div class="feature-card fade-in-right">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Seguro y Confiable</h3>
-                    <p>Nuestro sistema utiliza tecnología blockchain para garantizar la seguridad de tus transacciones e inversiones.</p>
-                </div>
-            </div>
+            <div id="commentsList">Cargando comentarios...</div>
         </div>
-    </section>
 
-    <!-- Stats Section -->
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item fade-in-left">
-                    <h3>3% - 5%</h3>
-                    <p>Ganancias Diarias</p>
-                </div>
-                <div class="stat-item fade-in-up">
-                    <h3>10 TRX</h3>
-                    <p>Depósito Mínimo</p>
-                </div>
-                <div class="stat-item fade-in-up">
-                    <h3>< 24h</h3>
-                    <p>Retiros Rápidos</p>
-                </div>
-                <div class="stat-item fade-in-right">
-                    <h3>100%</h3>
-                    <p>Seguro y Confiable</p>
-                </div>
+        <div class="card">
+            <h2>📋 Log de Actividad</h2>
+            <div class="log" id="log">
+                🟢 Inicializando sistema...<br>
             </div>
+            <button onclick="clearLog()" style="margin-top: 10px;">🧹 Limpiar Log</button>
         </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="container">
-            <h2 class="fade-in-up">¡Comienza a Ganar TRX Hoy Mismo!</h2>
-            <p class="fade-in-up">No esperes más para empezar a generar ingresos pasivos con TRX. Únete a nuestra comunidad de inversores satisfechos.</p>
-            <div class="fade-in-up">
-                <a href="https://t.me/TRXInvestment12_bot?start=K461WZZ1" class="btn btn-light btn-large">
-                    <i class="fab fa-telegram"></i> Comenzar con 10 TRX Gratis
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column fade-in-left">
-                    <h3>TRX Investment</h3>
-                    <p>La plataforma más confiable para invertir en TRX y obtener ganancias diarias de forma segura y sencilla.</p>
-                </div>
-                <div class="footer-column fade-in-up">
-                    <h3>Enlaces Rápidos</h3>
-                    <ul class="footer-links">
-                        <li><a href="https://t.me/TRXInvestment12_bot?start=K461WZZ1"><i class="fas fa-robot"></i> Comenzar con el Bot</a></li>
-                        <li><a href="https://t.me/+sOSTR7_4AoYwMjY5"><i class="fab fa-telegram"></i> Canal Oficial</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column fade-in-right">
-                    <h3>Características</h3>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-check-circle"></i> Depósitos desde 10 TRX</a></li>
-                        <li><a href="#"><i class="fas fa-check-circle"></i> Retiros en menos de 24h</a></li>
-                        <li><a href="#"><i class="fas fa-check-circle"></i> Ganancias diarias 3%-5%</a></li>
-                        <li><a href="#"><i class="fas fa-check-circle"></i> Bono de bienvenida</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright fade-in-up">
-                <p>&copy; 2025 TRX Investment. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // Intersection Observer para animaciones
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate');
+        // CONFIGURACIÓN
+        const SUPABASE_URL = "https://pnhifykhqbtgxrcjqgmv.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_rY4GP3zZ-DspAGqfYJnfMQ_QAqnidaL";
+        const TABLE_NAME = "comentarios_app";
+        
+        let supabase;
+        
+        function addLog(message, type = "info") {
+            const logDiv = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            const icon = type === "success" ? "✅" : type === "error" ? "❌" : type === "warning" ? "⚠️" : "ℹ️";
+            logDiv.innerHTML += `<div>${icon} [${time}] ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+        
+        function clearLog() {
+            document.getElementById('log').innerHTML = "🧹 Log limpiado<br>";
+            addLog("Log reiniciado", "info");
+        }
+        
+        async function testConnection() {
+            addLog("Probando conexión a Supabase...");
+            const statusDiv = document.getElementById('status');
+            
+            try {
+                const start = Date.now();
+                const { error } = await supabase.from(TABLE_NAME).select('count', { count: 'exact', head: true });
+                const latency = Date.now() - start;
+                
+                if (error && error.message.includes("does not exist")) {
+                    statusDiv.innerHTML = `<div class="warning">✅ Conectado (${latency}ms) - La tabla '${TABLE_NAME}' no existe. Haz clic en 'Crear Tabla'</div>`;
+                    addLog(`Conexión OK (${latency}ms) pero falta la tabla`, "warning");
+                } else if (!error) {
+                    statusDiv.innerHTML = `<div class="success">✅ Conectado exitosamente (${latency}ms) - Tabla lista</div>`;
+                    addLog(`Conexión exitosa (${latency}ms)`, "success");
+                    loadComments();
+                } else {
+                    throw error;
                 }
-            });
-        }, observerOptions);
-
-        // Observar todos los elementos con clases de animación
-        document.addEventListener('DOMContentLoaded', () => {
-            const animatedElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .fade-in-up');
-            animatedElements.forEach(el => observer.observe(el));
-            
-            // Crear partículas flotantes
-            createFloatingParticles();
-        });
-
-        // Función para crear partículas flotantes
-        function createFloatingParticles() {
-            const hero = document.querySelector('.hero');
-            const particlesCount = 20;
-            
-            for (let i = 0; i < particlesCount; i++) {
-                const particle = document.createElement('div');
-                const size = Math.random() * 6 + 2;
-                const animationType = Math.floor(Math.random() * 3) + 1;
-                
-                particle.style.position = 'absolute';
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.background = 'rgba(255, 255, 255, 0.7)';
-                particle.style.borderRadius = '50%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animation = `float${animationType} ${Math.random() * 10 + 8}s linear infinite`;
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                
-                hero.appendChild(particle);
+            } catch (err) {
+                statusDiv.innerHTML = `<div class="error">❌ Error de conexión: ${err.message}</div>`;
+                addLog(`Error: ${err.message}`, "error");
             }
+        }
+        
+        function createTable() {
+            const sql = `-- EJECUTA ESTE SQL EN SUPABASE DASHBOARD
+-- 1. Ir a: https://app.supabase.com/project/pnhifykhqbtgxrcjqgmv/sql
+-- 2. Crear nueva query
+-- 3. Pegar y ejecutar:
+
+CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
+    id SERIAL PRIMARY KEY,
+    contenido TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Deshabilitar RLS para pruebas
+ALTER TABLE ${TABLE_NAME} DISABLE ROW LEVEL SECURITY;
+
+-- Insertar comentario de prueba
+INSERT INTO ${TABLE_NAME} (contenido) VALUES ('🎉 Primer comentario desde la web!');
+
+-- Verificar
+SELECT * FROM ${TABLE_NAME};`;
+            
+            navigator.clipboard.writeText(sql);
+            addLog("✅ SQL copiado al portapapeles", "success");
+            addLog("📋 Instrucciones:", "info");
+            addLog("1. Abre Supabase Dashboard → SQL Editor", "info");
+            addLog("2. Pega (Ctrl+V) y ejecuta", "info");
+            addLog("3. Vuelve aquí y haz clic en 'Probar Conexión'", "info");
+            
+            alert("✅ SQL copiado al portapapeles!\n\n1. Ve a Supabase Dashboard\n2. SQL Editor\n3. Pega y ejecuta\n4. Vuelve aquí y prueba la conexión");
+        }
+        
+        async function resetTable() {
+            if (!confirm("⚠️ ¿Borrar TODOS los comentarios y recrear la tabla?")) return;
+            
+            addLog("Intentando resetear tabla...", "warning");
+            try {
+                const { error } = await supabase.rpc('drop_table_if_exists', { table_name: TABLE_NAME });
+                if (error) throw error;
+                addLog("Tabla eliminada, ahora créala con el botón 'Crear Tabla'", "success");
+            } catch (err) {
+                addLog("No se puede borrar automáticamente. Usa SQL manual.", "error");
+                createTable();
+            }
+        }
+        
+        async function submitComment() {
+            const input = document.getElementById('commentInput');
+            const content = input.value.trim();
+            
+            if (!content) {
+                document.getElementById('feedback').innerHTML = '<div class="error">❌ Escribe un comentario primero</div>';
+                setTimeout(() => document.getElementById('feedback').innerHTML = '', 2000);
+                return;
+            }
+            
+            document.getElementById('feedback').innerHTML = '<div class="warning">⏳ Enviando...</div>';
+            
+            try {
+                const { data, error } = await supabase
+                    .from(TABLE_NAME)
+                    .insert([{ contenido: content }])
+                    .select();
+                
+                if (error) throw error;
+                
+                document.getElementById('feedback').innerHTML = '<div class="success">✅ ¡Comentario publicado!</div>';
+                input.value = "";
+                addLog(`Comentario enviado: "${content.substring(0, 50)}"`, "success");
+                loadComments();
+                setTimeout(() => document.getElementById('feedback').innerHTML = '', 2000);
+            } catch (err) {
+                document.getElementById('feedback').innerHTML = `<div class="error">❌ Error: ${err.message}</div>`;
+                addLog(`Error al enviar: ${err.message}`, "error");
+                
+                if (err.message.includes("does not exist")) {
+                    addLog("💡 La tabla no existe. Usa 'Crear Tabla' primero", "warning");
+                }
+            }
+        }
+        
+        async function loadComments() {
+            addLog("Cargando comentarios...");
+            
+            try {
+                const { data, error } = await supabase
+                    .from(TABLE_NAME)
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(20);
+                
+                if (error) throw error;
+                
+                const container = document.getElementById('commentsList');
+                
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div class="warning">📭 No hay comentarios aún. ¡Escribe el primero!</div>';
+                    addLog("No hay comentarios", "info");
+                } else {
+                    container.innerHTML = data.map(comment => `
+                        <div class="comment">
+                            <div style="font-size: 16px; margin-bottom: 8px;">💬 ${escapeHtml(comment.contenido)}</div>
+                            <div style="font-size: 12px; color: #666;">
+                                📅 ${new Date(comment.created_at).toLocaleString()}
+                            </div>
+                        </div>
+                    `).join('');
+                    addLog(`Cargados ${data.length} comentarios`, "success");
+                }
+            } catch (err) {
+                document.getElementById('commentsList').innerHTML = `<div class="error">❌ Error: ${err.message}</div>`;
+                addLog(`Error cargando: ${err.message}`, "error");
+            }
+        }
+        
+        async function deleteAllComments() {
+            if (!confirm("⚠️ ¿Borrar TODOS los comentarios? Esta acción no se puede deshacer.")) return;
+            
+            addLog("Borrando todos los comentarios...", "warning");
+            try {
+                const { error } = await supabase
+                    .from(TABLE_NAME)
+                    .delete()
+                    .neq('id', 0);
+                
+                if (error) throw error;
+                addLog("✅ Todos los comentarios fueron borrados", "success");
+                loadComments();
+            } catch (err) {
+                addLog(`Error al borrar: ${err.message}`, "error");
+            }
+        }
+        
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+        
+        // Inicializar
+        try {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            addLog("✅ Cliente Supabase inicializado", "success");
+            testConnection();
+        } catch (err) {
+            addLog(`❌ Error fatal: ${err.message}`, "error");
         }
     </script>
 </body>
